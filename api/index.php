@@ -6,6 +6,8 @@ ini_set('display_errors', 'off');
 /** Config Return Header */
 header("Access-Control-Allow-Origin: *");
 header('Content-type:application/json;charset=utf-8');
+header("Access-Control-Allow-Methods: POST");
+header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 if (isset($_GET['act']))
 {
@@ -15,7 +17,7 @@ if (isset($_GET['act']))
             $Return['data']= $blogs->showAllBlog();
             echo json_encode($Return);
             break;
-        case 'addblog':
+        case 'addBlog':
             $Return = array();
             if($_SERVER["REQUEST_METHOD"] == "POST"){
                 $name = $_POST['name'];
