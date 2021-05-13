@@ -14,7 +14,7 @@ class Blogs extends  ModelDb
 
     function showAllBlog()
     {
-        $SQL ="SELECT * FROM blogs";
+        $SQL ="SELECT * FROM posts";
         return $this->ModelDb->result1(0,$SQL);
     }
    

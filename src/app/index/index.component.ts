@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SocialAuthService, GoogleLoginProvider, SocialUser } from 'angularx-social-login';
+import { DatablogsService } from '../datablogs.service';
 @Component({
   selector: 'app-index',
   templateUrl: './index.component.html',
@@ -14,7 +15,8 @@ export class IndexComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private socialAuthService: SocialAuthService,
-    private router:Router
+    private router:Router,
+    private datablog: DatablogsService
     ) {
   }
 
@@ -28,16 +30,20 @@ export class IndexComponent implements OnInit {
       {
         var data ={
           id:this.socialUser.id,
-          name:this.socialUser.name,
+          // name:this.socialUser.name,
           email:this.socialUser.email,
-          photoUrl: this.socialUser.photoUrl
+          kind: 0
+          // photoUrl: this.socialUser.photoUrl
         }
 
         localStorage.setItem('user',JSON.stringify(data));
 
         // this.router.navigate(['home']);
+        console.log(data)
+        this.datablog.addHero(data).subscribe(data=>console.log(data))
       }
-      console.log(this.socialUser)
+
+
     });
   }
   loginWithGoogle(): void {
