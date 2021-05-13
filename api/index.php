@@ -26,32 +26,29 @@ if (isset($_GET['act']))
                 echo json_encode($Return);
             }
             break;
-        case 'addaccount':
-            $Return = array();
-            $id = $_POST['id'];
-            $email = $_POST['email'];
-            $kind = $_POST['kind'];
+        case 'addAccount':
+            $postdata = file_get_contents("php://input");
 
-            // if($_SERVER["REQUEST_METHOD"] == "POST"){
-               
-            //     $id = $_POST['id'];
-            //     $email = $_POST['email'];
-            //     $kind = $_POST['kind'];
-            //     if($blogs->addAccount($id,$email,0,$kind)){
-            //         // http_response_code(200);
-            //         // echo json_encode(array("message" => "User was successfully registered."));
-            //         $Return['statusCode'] =1;
-            //         $Return['message'] ='success';
-            //     }else{
-            //         $Return['statusCode'] =0;
-            //         $Return['message'] ='error';
-            //         // http_response_code(400);
+            if(isset($postdata) && !empty($postdata))
+            {
+                $request = json_decode($postdata);
 
-            //         // echo json_encode(array("message" => "Unable to register the user."));
-            //     }
-            //     echo json_encode($Return);
-            // }
-            echo json_encode(array("id"=>$id,"email"=>$email,"kind"=>$kind));
+                $id =$request->data->id;
+                $email = $request->data->email; 
+                $kind = $request->data->kind; 
+
+                if($blogs->addAccount($id,$email,0,$kind)){
+                    http_response_code(201);
+                    $data = [
+                        'id'    =>$id,
+                        'email' => $email,
+                        'kind' => $kind,
+                      ];
+                     echo json_encode(['data'=>$data]);
+                }else{
+                    http_response_code(422);
+                }
+            }
             break;
         default:
             # code...

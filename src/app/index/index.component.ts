@@ -39,7 +39,7 @@ export class IndexComponent implements OnInit {
         localStorage.setItem('user',JSON.stringify(data));
 
         // this.router.navigate(['home']);
-        console.log(data)
+        console.log(JSON.stringify({"data":data}))
         this.datablog.addHero(data).subscribe(data=>console.log(data))
       }
 
