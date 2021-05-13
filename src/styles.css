@@ -1,4 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
+/* @import '~ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
+@import '~ngx-owl-carousel-o/lib/styles/scss/owl.theme.default'; */
+
 :root {
   --bg_main: #EDF2F3;
   /* --cl_main: #ff451b; */
@@ -8,25 +11,55 @@
   --cl_text_black: #202020;
 }
 
-body {
-  font-family: 'Roboto', sans-serif;
+body,
+html {
+  height: 100%;
 }
 
-.useFontAwesomeFamily::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+body {
+  font-family: 'Roboto', sans-serif;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.useFontAwesomeFamily::-webkit-input-placeholder {
+  /* WebKit, Blink, Edge */
   font-family: "Font Awesome 5 Brands" !important;
 }
-.useFontAwesomeFamily:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+
+.useFontAwesomeFamily:-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
   font-family: "Font Awesome 5 Brands" !important;
 }
-.useFontAwesomeFamily::-moz-placeholder { /* Mozilla Firefox 19+ */
+
+.useFontAwesomeFamily::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
   font-family: "Font Awesome 5 Brands" !important;
 }
-.useFontAwesomeFamily:-ms-input-placeholder { /* Internet Explorer 10-11 */
+
+.useFontAwesomeFamily:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
   font-family: "Font Awesome 5 Brands" !important;
 }
-.useFontAwesomeFamily::-ms-input-placeholder { /* Microsoft Edge */
+
+.useFontAwesomeFamily::-ms-input-placeholder {
+  /* Microsoft Edge */
   font-family: "Font Awesome 5 Brands" !important;
 }
-.useFontAwesomeFamily::placeholder { /* Most modern browsers */
+
+.useFontAwesomeFamily::placeholder {
+  /* Most modern browsers */
   font-family: "Font Awesome 5 Brands" !important;
+}
+
+@media (min-width: 1400px) {
+  .container,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container-xl,
+  .container-xxl {
+    max-width: 980px;
+  }
+
 }

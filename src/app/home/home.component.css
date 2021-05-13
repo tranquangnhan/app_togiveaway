@@ -86,19 +86,22 @@ body {
 
 header {
   margin: 0 auto;
-  width: 90%;
+  width: 100%;
   background: white;
   height: auto;
-  border-radius: 0px 0px 25px 25px;
-  padding: 15px 25px;
+  /* border-radius: 0px 0px 25px 25px; */
 }
 
+header .container {
+  height: 70px;
+  line-height: 70px;
+}
 header .left {
-  width: 60%;
+  width: 50%;
 }
 
 header .right {
-  width: 40%;
+  width: 50%;
 }
 
 .header_div .logo {
@@ -165,18 +168,14 @@ input:focus-visible {
 /************** header **************/
 
 /********************** main ***********************/
-main {
-  width: 90%;
-  margin: 0 auto;
-}
 
 main div {
   float: left;
 }
 
 main .left {
-  width: 5%;
-  padding-right: 1.2rem;
+  width: 32%;
+  padding-right: 2.2rem;
   min-height: 1px;
   transition: 0.8s;
 }
@@ -197,15 +196,19 @@ main .left .left_control button {
 }
 
 main .left .block_hidden {
-  background-color: white;
-  border-radius: 20px;
-  overflow: auto;
+  border-radius: 10px;
+  /* overflow: auto; */
   width: 0%;
   height: 0px;
 }
 
 main .left .block_hidden::-webkit-scrollbar {
   display: none;
+}
+
+.show_menu {
+  width: 100%!important;
+  height: 800px!important;
 }
 
 .open {
@@ -242,17 +245,45 @@ main .left .block_hidden::-webkit-scrollbar {
   }
 }
 
+.showlist {
+  animation-name: showlist;
+  animation-duration: 0.8s;
+}
+
+@keyframes showlist {
+  from {
+    height: 0px;
+  }
+  to {
+    height: 1000px;
+  }
+}
+
+.hidelist {
+  animation-name: hidelist;
+  animation-duration: 0.8s;
+}
+
+@keyframes hidelist {
+  from {
+    height: 1000px;
+  }
+  to {
+    height: 0px;
+  }
+}
+
 /********************** control ***********************/
 
 main .mid {
-  width: 95%;
+  width: 68%;
   transition: 0.8s;
 }
 
 main .mid .div_dang_bai,
 main .mid .div_bai_viet {
   background-color: white;
-  border-radius: 25px;
+  border-radius: 10px;
   min-height: 100px;
   padding: 25px;
   padding-bottom: 15px;
@@ -412,6 +443,45 @@ textarea:focus-visible {
 
 .div_images {
   display: flex;
+  overflow: hidden;
+  width: 601px!important;
+}
+
+.slider {
+  width: 601px;
+}
+
+.slides {
+  transition: 0.7s;
+  transform: translateX(0);
+}
+
+.button_slide {
+  position: absolute;
+  height: 40px;
+  top: 220px;
+  z-index: 10;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 30px;
+  line-height: 40px;
+  transition: 0.4s;
+}
+
+.button_slide:hover {
+  background-color: #00000091;
+  border-radius: 7px;
+  padding: 0px 12px;
+}
+
+.btnleft{
+  right: 10px;
+}
+
+.btnright{
+  display: none;
+  left: 10px;
 }
 
 .div_images>div:not(:last-child) {
@@ -429,8 +499,26 @@ textarea:focus-visible {
   line-height: 19px;
   filter: drop-shadow(1px 1px 4px var(--cl_main));
 }
-
+.over-auto {
+  overflow: auto;
+}
 /* messssssssssss */
+.mess {
+  height: 0px;
+  overflow: auto;
+  display: none;
+}
+
+.hideCrollOverflow::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.hideCrollOverflow {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
 .w_img_mess {
   width: 25px;
 }
@@ -461,10 +549,10 @@ p.div_content_comment {
 }
 
 .btn_menu {
-  padding: 10px 20px;
-  border-radius: 10px;
-  background: white;
-  box-shadow: 0 .15rem 1.75rem 0 rgba(58, 59, 69, .15) !important;
+  padding: 10px 6px;
+  border-radius: 5px;
+  background: #f8f9fc70;
+  /* box-shadow: 0 .15rem 1.75rem 0 rgba(58, 59, 69, .15) !important; */
   margin-top: 10px;
   position: relative;
   z-index: 999;
@@ -529,6 +617,7 @@ p.div_content_comment {
 .ip_modal_newmember {
   background: #EBF4F2;
     border: none;
+    margin-top: -18px;
     padding: 10px 14px;
     border-radius: 5px;
 }
@@ -567,16 +656,52 @@ p.div_content_comment {
   padding: 6px 20px;
   border-radius: 30px;
   width: 250px;
+  height: 40px;
 }
 
 input.inputTimKiem::placeholder {
   color: rgb(11, 64, 161);
 }
 
+.cl_box_main {
+  background-color: var(--cl_main);
+  box-shadow: 4px 4px 12px var(--cl_main);
+}
+
+.fz-20px {
+  font-size: 20px;
+}
+
+.fz-14px {
+  font-size: 14px;
+}
+
+.sl_nguoionline {
+  position: absolute;
+  right: 3px;
+  line-height: 20px;
+  color: white;
+  font-size: 10px;
+}
+
+.select_thanhpho:focus-visible {
+  outline: -webkit-focus-ring-color auto 0px;
+}
+
+.select_thanhpho option {
+  background: rgb(255, 255, 255);
+  color: #202020;
+}
+
 /************** main **************/
 
 
 /********* margin *********/
+
+.mr-r-25px{
+  margin-right: 25px;
+}
+
 .mr-r-10px {
   margin-right: 10px;
 }
