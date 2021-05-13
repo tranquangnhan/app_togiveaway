@@ -22,35 +22,10 @@ body {
   margin: 0 auto;
 }
 
-.useFontAwesomeFamily::-webkit-input-placeholder {
-  /* WebKit, Blink, Edge */
-  font-family: "Font Awesome 5 Brands" !important;
+.useFontAwesomeFamily {
+  font-family: "fontawesome";
 }
 
-.useFontAwesomeFamily:-moz-placeholder {
-  /* Mozilla Firefox 4 to 18 */
-  font-family: "Font Awesome 5 Brands" !important;
-}
-
-.useFontAwesomeFamily::-moz-placeholder {
-  /* Mozilla Firefox 19+ */
-  font-family: "Font Awesome 5 Brands" !important;
-}
-
-.useFontAwesomeFamily:-ms-input-placeholder {
-  /* Internet Explorer 10-11 */
-  font-family: "Font Awesome 5 Brands" !important;
-}
-
-.useFontAwesomeFamily::-ms-input-placeholder {
-  /* Microsoft Edge */
-  font-family: "Font Awesome 5 Brands" !important;
-}
-
-.useFontAwesomeFamily::placeholder {
-  /* Most modern browsers */
-  font-family: "Font Awesome 5 Brands" !important;
-}
 
 @media (min-width: 1400px) {
   .container,

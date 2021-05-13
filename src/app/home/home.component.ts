@@ -26,13 +26,12 @@ export class HomeComponent implements OnInit {
 
 
   changeBlock(idOpen, idClose) {
-    console.log(this.checkClick);
+    var check = $('#' + idOpen).hasClass("show");
 
-    if (this.checkClick === true) {
-      this.checkClick = false;
-      var check = $('#' + idOpen).hasClass("show");
+    if (check == false) {
+      if (this.checkClick === true) {
+        this.checkClick = false;
 
-      if (check == false) {
         $('#' + idOpen).addClass("show");
         $('#' + idClose).addClass("hidelist");
         $('#' + idClose).css("height", "0px");
@@ -48,7 +47,7 @@ export class HomeComponent implements OnInit {
           $('#' + idOpen).removeClass("showlist");
           $('#' + idClose).removeClass("hidelist");
           this.checkClick = true;
-        }, 1610);
+        }, 1600);
       }
     }
   }
@@ -67,9 +66,9 @@ export class HomeComponent implements OnInit {
       var dlChuyenImage = this.getDulieuDeXulichuyenAnh(idblog);
       var tranlatex = dlChuyenImage.tranlatex_value_now - 601;
 
-      if (tranlatex == -601){dlChuyenImage.div.prev().fadeIn(200);}
-      if (tranlatex >= dlChuyenImage.maxTranlateX){this.changeTranlatex(dlChuyenImage.div, tranlatex);}
-      if (tranlatex == dlChuyenImage.maxTranlateX){dlChuyenImage.div.prev().prev().fadeOut(200);}
+      if (tranlatex == -601) { dlChuyenImage.div.prev().fadeIn(200); }
+      if (tranlatex >= dlChuyenImage.maxTranlateX) { this.changeTranlatex(dlChuyenImage.div, tranlatex); }
+      if (tranlatex == dlChuyenImage.maxTranlateX) { dlChuyenImage.div.prev().prev().fadeOut(200); }
       this.resetBoolenCheck_(this.checkclick_, true, 700);
     }
   }
@@ -107,10 +106,38 @@ export class HomeComponent implements OnInit {
       var dlChuyenImage = this.getDulieuDeXulichuyenAnh(idblog);
       var tranlatex = dlChuyenImage.tranlatex_value_now + 601;
 
-      if (tranlatex == dlChuyenImage.maxTranlateX + 601){dlChuyenImage.div.prev().prev().fadeIn(200);}
-      if (tranlatex <= 0){this.changeTranlatex(dlChuyenImage.div, tranlatex);}
-      if (tranlatex == 0){dlChuyenImage.div.prev().fadeOut(200);}
+      if (tranlatex == dlChuyenImage.maxTranlateX + 601) { dlChuyenImage.div.prev().prev().fadeIn(200); }
+      if (tranlatex <= 0) { this.changeTranlatex(dlChuyenImage.div, tranlatex); }
+      if (tranlatex == 0) { dlChuyenImage.div.prev().fadeOut(200); }
       this.resetBoolenCheck_(this.checkclick_, true, 700);
     }
+  }
+
+  showbinhluan(attributeName, idblog) {
+    var div = $("["+ attributeName +"=" + idblog + "]");
+    this.moveDivBinhluan(div);
+  }
+
+  moveDivBinhluan(div) {
+    var check = div.hasClass("show-binh-luan");
+    if (check == false) {
+      var baonhieu = "auto";
+      div.addClass('show-binh-luan');
+    } else {
+      var baonhieu = "0px";
+      div.removeClass('show-binh-luan');
+    }
+    this.changeHeight(div, baonhieu);
+  }
+
+  changeHeight(element, baonhieu) {
+    element.css({
+      "height": baonhieu
+    });
+  }
+
+  showFromTraloi(idblog, sttbinhluan) {
+    var div = $("[idBlog-fromtraloi=" + idblog + "][stt-reply=" + sttbinhluan + "]");
+    this.moveDivBinhluan(div);
   }
 }
