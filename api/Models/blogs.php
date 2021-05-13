@@ -18,6 +18,11 @@ class Blogs extends  ModelDb
         return $this->ModelDb->result1(0,$SQL);
     }
    
+    function addAccount($id,$email,$role,$kind){
+        $SQL ="INSERT INTO accounts(id,email,role,kind) VALUE(?,?,?,?)";
+        return $this->ModelDb->exec1($SQL,$id,$email,$role,$kind);
+    }
+    
 }
 
 ?>
