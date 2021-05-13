@@ -41,13 +41,13 @@ export class HomeComponent implements OnInit {
           $('#' + idOpen).css("height", "1000px");
           $('#' + idClose).removeClass("show");
           $('#' + idOpen).fadeIn(100);
-        }, 1050);
+        }, 700);
 
         setTimeout(() => {
           $('#' + idOpen).removeClass("showlist");
           $('#' + idClose).removeClass("hidelist");
           this.checkClick = true;
-        }, 1600);
+        }, 1000);
       }
     }
   }

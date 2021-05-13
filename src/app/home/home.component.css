@@ -265,7 +265,7 @@ main .left .block_hidden::-webkit-scrollbar {
 
 .showlist {
   animation-name: showlist;
-  animation-duration: 0.8s;
+  animation-duration: 0.9s;
 }
 
 @keyframes showlist {
@@ -279,7 +279,7 @@ main .left .block_hidden::-webkit-scrollbar {
 
 .hidelist {
   animation-name: hidelist;
-  animation-duration: 0.8s;
+  animation-duration: 0.7s;
 }
 
 @keyframes hidelist {
@@ -291,6 +291,9 @@ main .left .block_hidden::-webkit-scrollbar {
   }
 }
 
+.bg-white {
+  background-color: white;
+}
 /********************** control ***********************/
 
 main .mid {
