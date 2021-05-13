@@ -1,0 +1,248 @@
+main {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(0deg, #FFFFFF -27.05%, rgba(255, 255, 255, 0) 139.59%), #00BFE9;
+}
+
+.images_center {
+    animation: images_center 12s infinite;
+    transition: 2s;
+    position: relative;
+    z-index: 100;
+}
+
+@keyframes images_center {
+    0% {
+        transform: translateY(10px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(10px);
+    }
+}
+
+
+/******************* form nhập tên *******************/
+
+.form_main {
+    position: absolute;
+    width: 400px;
+    height: auto;
+    background: #FFFFFF;
+    left: calc(50% - 200px);
+    margin-top: 5%;
+    padding: 5px 15px 5px 15px;
+    /* display: none; */
+}
+
+.ip_ten {
+    position: relative;
+    padding: 15px 20px 15px 20px;
+    border: 1px solid #C4C4C4;
+    box-sizing: border-box;
+    border-radius: 30px;
+    transition: 0.3s;
+}
+
+.ip_ten:hover {
+    border-color: rgb(59, 59, 59);
+}
+
+.ip_ten:focus-visible {
+    outline: none;
+}
+
+.div_ip_ten::before {
+    position: absolute;
+    content: 'Tên gọi của bạn?';
+    color: black;
+    z-index: 20;
+    height: 25px;
+    background: #EDF2F3;
+    border-radius: 30px;
+    font-size: 0.9vw;
+    padding: 2px 10px;
+    margin-left: 8%;
+    margin-top: -2.9%;
+    line-height: 19px;
+}
+
+
+/******************* form nhập tên *******************/
+
+
+/* 3 hình nằm dưới */
+
+.div_images_bottom {
+    width: 80%;
+}
+
+.icon_png {
+    width: 33.33333%;
+}
+
+.image {
+    width: 40%;
+    padding-bottom: 15px;
+}
+
+.icon_1 {
+    position: relative;
+}
+
+.icon_1::before {
+    position: absolute;
+    content: '';
+    width: 55%;
+    height: 7px;
+    background: linear-gradient(90deg, rgb(0, 242, 254) 0%, rgb(74, 176, 254) 35%, rgb(79, 172, 254) 100%);
+    border-radius: 30px;
+    top: 20px;
+    left: 65px;
+}
+
+.icon_2 {
+    position: relative;
+}
+
+.icon_2::before {
+    position: absolute;
+    content: '';
+    width: 55%;
+    height: 7px;
+    background: linear-gradient(-90deg, rgb(0, 242, 254) 0%, rgb(74, 176, 254) 70%, rgb(79, 172, 254) 100%);
+    border-radius: 30px;
+    top: 20px;
+    left: 92px;
+}
+
+
+/* .icon_1::after {
+    position: absolute;
+    content: '';
+    width: 0%;
+    height: 7px;
+    background: linear-gradient(-90deg, rgb(0,242,254) 0%, rgb(74,176,254) 35%, rgb(79,172,254) 100%);
+    border-radius: 30px;
+    top: 20px;
+    left: 65px;
+    z-index: 20;
+    animation: icon_1 5s infinite;
+}
+
+.icon_2::after {
+    position: absolute;
+    content: '';
+    width: 55%;
+    height: 7px;
+    background: linear-gradient(90deg, rgb(0,242,254) 0%, rgb(74,176,254) 70%, rgb(79,172,254) 100%);
+    border-radius: 30px;
+    top: 20px;
+    left: 92px;
+    z-index: 20;
+    animation: icon_2 5s infinite;
+} */
+
+
+/*
+@keyframes icon_1 {
+    form {
+        width: 0%;
+    }
+    to {
+        width: 55%;
+    }
+}
+
+@keyframes icon_2 {
+    form {
+        width: 55%;
+    }
+    to {
+        width: 0%;
+    }
+} */
+
+
+/* 3 hình nằm dưới */
+
+.w-25px {
+  width: 25px;
+}
+
+
+/* button footer */
+
+.xemthu {
+  position: absolute;
+  margin-top: 20px;
+  left: 0px;
+  text-align: center;
+}
+
+.xemthu a {
+  text-decoration: none;
+  color: #202020  ;
+}
+
+.button_footer .btn_thamgia {
+  border: none;
+    background: #4285F4;
+    border-radius: 5px;
+    padding: 7px 10px;
+    color: #ffffff;
+    font-weight: 500;
+    transition: 1s;
+}
+
+.btn_thamgia {
+    position: relative;
+}
+
+.btn_thamgia img {
+  background: white;
+  width: 30px;
+  padding: 4px;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.btn_thamgia:hover .button_footer_hover {
+    width: 100%;
+}
+
+.button_footer_hover {
+    position: absolute;
+    width: 0%;
+    height: 100%;
+    background: #ffffff0f;
+    top: 0px;
+    left: 0px;
+    border-radius: 15px;
+    transition: 0.4s;
+}
+
+.button_footer .col-4 .row a {
+    line-height: 60px;
+    text-decoration: none;
+    color: #4b4b4b;
+    transition: 0.5s;
+}
+
+.button_footer .col-4 .row a:hover {
+    color: #020202;
+}
+
+.button_footer .col-4 .row .col-4 img {
+    transition: 0.5s;
+}
+
+.button_footer .col-4 .row .col-4 img:hover {
+    transform: scale(1.1);
+}
+
+
+/* button footer */
