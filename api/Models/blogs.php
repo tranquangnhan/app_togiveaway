@@ -33,6 +33,10 @@ class Blogs extends  ModelDb
       return $this->ModelDb->exec1($SQL, $content, $image, $status_post, $status_give, $id_user, $id_province, $date_create);
   }
 
+    function countAccount($id){
+        $SQL ="SELECT COUNT(*) as soluong FROM accounts WHERE id=?";
+        return $this->ModelDb->result1(1,$SQL,$id)['soluong'];
+    }
 }
 
 ?>

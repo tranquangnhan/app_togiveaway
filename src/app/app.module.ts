@@ -13,10 +13,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
 import { GoogleLoginProvider } from 'angularx-social-login';
 
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
+import { JwtModule } from '@auth0/angular-jwt';
+import { AuthInterceptor } from './auth.interceptor';
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,7 +35,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     SocialLoginModule,
     HttpClientModule,
     FormsModule,
-    NgbModule
+    NgbModule,
+    JwtModule
   ],
   providers: [
     {
@@ -49,7 +52,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
           }
         ]
       } as SocialAuthServiceConfig,
-    }
+    } ,{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
