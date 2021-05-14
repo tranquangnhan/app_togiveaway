@@ -28,6 +28,7 @@ export class IndexComponent implements OnInit {
 
       if(this.socialUser)
       {
+        console.log(this.socialUser);
         var data ={
           id:this.socialUser.id,
           // name:this.socialUser.name,
@@ -49,5 +50,4 @@ export class IndexComponent implements OnInit {
   loginWithGoogle(): void {
       this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
   }
-
 }

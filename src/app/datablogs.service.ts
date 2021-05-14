@@ -14,6 +14,10 @@ export class DatablogsService {
     })
   };
   addHero(data) {
-    return this.http.post(this.heroesUrl+'addAccount',{ "data": data }, this.httpOptions) 
+    return this.http.post(this.heroesUrl+'addAccount',{ "data": data }, this.httpOptions)
+  }
+
+  addnewblog(data) {
+    return this.http.post(this.heroesUrl+'addNewBlog',{ "data": data }, this.httpOptions)
   }
 }

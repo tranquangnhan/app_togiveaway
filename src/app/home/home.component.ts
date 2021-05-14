@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import * as $ from "jquery";
-
-// import { DataHomeService } from '../data-home.service';
-
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DatablogsService } from '../datablogs.service';
+import { Router } from '@angular/router';
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-home',
@@ -10,10 +11,17 @@ import * as $ from "jquery";
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+
   public checkClick = true;
   public checkclick_ = true;
-  // private DataHomeService: DataHomeService
-  constructor() { }
+  public showModal :boolean = false;
+  constructor(
+    private formBuilder: FormBuilder,
+    private router:Router,
+    private datablog: DatablogsService,
+    private modalService: NgbModal
+  ) {
+  }
 
   ngOnInit(): void {
     // this.showDataHome();
@@ -61,7 +69,7 @@ export class HomeComponent implements OnInit {
 
   nextImages(idblog) {
     if (this.checkclick_ == true) {
-      this.resetBoolenCheck_(this.checkclick_, false, 0);
+      this.checkclick_ = false;
 
       var dlChuyenImage = this.getDulieuDeXulichuyenAnh(idblog);
       var tranlatex = dlChuyenImage.tranlatex_value_now - 601;
@@ -69,7 +77,9 @@ export class HomeComponent implements OnInit {
       if (tranlatex == -601) { dlChuyenImage.div.prev().fadeIn(200); }
       if (tranlatex >= dlChuyenImage.maxTranlateX) { this.changeTranlatex(dlChuyenImage.div, tranlatex); }
       if (tranlatex == dlChuyenImage.maxTranlateX) { dlChuyenImage.div.prev().prev().fadeOut(200); }
-      this.resetBoolenCheck_(this.checkclick_, true, 700);
+      setTimeout(() => {
+        this.checkclick_ = true;
+      }, 700);
     }
   }
 
@@ -88,7 +98,7 @@ export class HomeComponent implements OnInit {
   }
 
   resetBoolenCheck_(bienset, loai, timeset) {
-    setTimeout(() => {
+    setTimeout(function() {
       bienset = loai;
     }, timeset);
   }
@@ -101,15 +111,16 @@ export class HomeComponent implements OnInit {
 
   prevImages(idblog) {
     if (this.checkclick_ == true) {
-      this.resetBoolenCheck_(this.checkclick_, false, 0);
-
+      this.checkclick_ = false;
       var dlChuyenImage = this.getDulieuDeXulichuyenAnh(idblog);
       var tranlatex = dlChuyenImage.tranlatex_value_now + 601;
 
       if (tranlatex == dlChuyenImage.maxTranlateX + 601) { dlChuyenImage.div.prev().prev().fadeIn(200); }
       if (tranlatex <= 0) { this.changeTranlatex(dlChuyenImage.div, tranlatex); }
       if (tranlatex == 0) { dlChuyenImage.div.prev().fadeOut(200); }
-      this.resetBoolenCheck_(this.checkclick_, true, 700);
+      setTimeout(() => {
+        this.checkclick_ = true;
+      }, 700);
     }
   }
 
@@ -140,4 +151,42 @@ export class HomeComponent implements OnInit {
     var div = $("[idBlog-fromtraloi=" + idblog + "][stt-reply=" + sttbinhluan + "]");
     this.moveDivBinhluan(div);
   }
+
+  addnewblog() {
+    var dataUs = JSON.parse(localStorage.getItem('user'));
+    if (dataUs != '') {
+      var content = $('#contentBlog').val();
+      var img = 'someImages';
+      var date = new Date();
+      // var ampm = date.getHours() >= 12 ? 'PM' : 'AM';
+      // var datetimez = new Date().getTime();
+
+      var datetime = date.getFullYear() + '-' + date.getMonth() + '-' + date.getSeconds() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+      var data = {
+        "content": content,
+        "images": img,
+        "id_user": dataUs.id,
+        "date_create": datetime
+      }
+      console.log(data);
+      this.datablog.addnewblog(data).subscribe(
+        res=>{
+          if (res == 1) {
+            alert('Thêm thành công');
+            console.log('1');
+          } else {
+            // chưa nhập thông tin ///
+            var myModal = $('.motal_newmember');
+            myModal.show();
+            console.log('0');
+          }
+        }
+      )
+    } else {
+      console.log('ban chua dang nhap');
+    }
+  }
+  closeResult: string;
+
+
 }

@@ -38,6 +38,7 @@
     </div>
   </div>
 </div>
+
 <header class="d-flex align-items-center">
   <div class="container">
     <div class="header_div left d-inline-block d-flex align-items-center float-start">
@@ -251,7 +252,7 @@
         <div class="mid-right form-dang-bai w-100">
           <form action="" method="post" class="form_search">
             <div class="div_texa">
-              <textarea name="" id="" class="w-100" rows="1" placeholder="Bạn muốn đăng gì?"></textarea>
+              <textarea name="" id="contentBlog" class="w-100" rows="1" placeholder="Bạn muốn đăng gì?"></textarea>
             </div>
             <div class="control w-100 mt-4">
               <div class="left">
@@ -264,8 +265,7 @@
                 </div>
               </div>
               <div class="right">
-                <button type="button" class="float-end" id="btn_chiase" data-bs-toggle="modal"
-                  data-bs-target="#showFormNewMember">Chia
+                <button type="button" class="float-end" id="btn_chiase" (click)="addnewblog();">Chia
                   sẻ</button>
               </div>
             </div>
