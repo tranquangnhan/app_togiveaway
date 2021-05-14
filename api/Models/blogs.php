@@ -22,7 +22,11 @@ class Blogs extends  ModelDb
         $SQL ="INSERT INTO accounts(id,email,role,kind) VALUE(?,?,?,?)";
         return $this->ModelDb->exec1($SQL,$id,$email,$role,$kind);
     }
-    
+
+    function countAccount($id){
+        $SQL ="SELECT COUNT(*) as soluong FROM accounts WHERE id=?";
+        return $this->ModelDb->result1(1,$SQL,$id)['soluong'];
+    }
 }
 
 ?>
