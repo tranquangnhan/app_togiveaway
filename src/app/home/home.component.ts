@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
+  public previewImages = false;
   public checkClick = true;
   public checkclick_ = true;
   public showModal :boolean = false;
@@ -30,6 +31,25 @@ export class HomeComponent implements OnInit {
     $('#' + iddrop).slideToggle(460);
   }
 
+  urlsImage = [];
+
+  addImage(e) {
+    if (e.target.files.length == 1) {
+      this.previewImages = true;
+      this.urlsImage.push(e.target.files[0].name);
+    }
+    
+    console.log(this.urlsImage);
+    // if (e.target.files) {
+    //   for (var i = 0; i<File.length; i++) {
+    //     var reader = new FileReader();
+    //     reader.readAsDataURL(e.target.file[i]);
+    //     reader.onload=(events:any)=>{
+    //       this.urlsImage.push(events.target.result);
+    //     }
+    //   }
+    // }
+  }
 
 
   changeBlock(idOpen, idClose) {
@@ -58,13 +78,6 @@ export class HomeComponent implements OnInit {
       }
     }
   }
-
-  // showDataHome() {
-  //   this.DataHomeService.getDataHome().subscribe(data => {
-  //     console.log(data)
-  //   })
-  // }
-
 
   nextImages(idblog) {
     if (this.checkclick_ == true) {

@@ -80,7 +80,7 @@
 </header>
 <main class="mt-4">
   <div class="container float-none">
-    <div class="left" id="main_left">
+    <div class="menu_right float-end" id="main_left">
       <div class="block_hidden menu open show_menu bg-white" id="menu_main">
         <div class="w-100 ten_nguoi title_">
           <button class="btn p-0"><i class="fa fa-home fz-20px" aria-hidden="true"></i> Home</button>
@@ -244,43 +244,50 @@
 
     <div class="mid float-end" id="mid_main">
       <div class="div_dang_bai w-100">
-        <!-- <div class="mid-left">
-                <img src="./assets/images/user.png" alt="" class="img-fluid">
-            </div> -->
-        <!-- Modal -->
-
         <div class="mid-right form-dang-bai w-100">
           <form action="" method="post" class="form_search">
             <div class="div_texa">
               <textarea name="" id="contentBlog" class="w-100" rows="1" placeholder="Bạn muốn đăng gì?"></textarea>
             </div>
-            <div class="control w-100 mt-4">
-              <div class="left">
-                <div class="row">
-                  <img src="../../assets/images/picture.png" alt="" class="img-fluid">
+            <div *ngIf="previewImages" class="box_preview_images mt-3">
+              <img *ngFor="let url of urlsImage" src="./assets/images/{{url}}" alt="" class="img-fluid img-review mr-12px" >
+              <div class="button_themanh">
 
-                  <div class="col-10 p-0 d-flex align-items-center fz-11pt">
-                    Images / Videos
+              </div>
+            </div>
+            <div class="control w-100 mt-3">
+              <div class="row w-100 mx-auto">
+                <div class="col-8 p-0">
+                    <div class="row">
+                      <img src="../../assets/images/picture.png" alt="" class="w_70px">
+                      <div class="p-0 d-flex align-items-center fz-11pt w-110px">
+                        <label for="files" class="cursor-point">Images / Videos</label>
+                        <input id="files" (change)="addImage($event);" style="visibility:hidden;" class="d-none" type="file" multiple>
+                      </div>
+                    </div>
+                </div>
+                <div class="col-4 p-0 d-flex align-items-center">
+                  <div class="right w-100">
+                    <button type="button" class="float-end" id="btn_chiase" (click)="addnewblog();">Chia
+                      sẻ</button>
                   </div>
                 </div>
               </div>
-              <div class="right">
-                <button type="button" class="float-end" id="btn_chiase" (click)="addnewblog();">Chia
-                  sẻ</button>
-              </div>
+
+
             </div>
           </form>
         </div>
       </div>
       <div class="div_bai_viet mt-4 w-100">
         <div class="div_info d-flex align-items-center w-100">
-          <div class="left d-inline-block d-flex align-items-center">
+          <div class="left d-inline-block d-flex align-items-center align-self-start">
             <div class="div_img d-inline-block mr-13px">
               <img src="../../assets/images/profile 2.png" class="img_avt" alt="">
             </div>
             <div class="div_info_us d-inline-block">
-              <h3 class="cl-level-2 capdo">Phương Hoàng Diệu</h3>
-              <h6>7:10:50 PM - 22/4/2021</h6>
+              <h3 class="cl-level-4 capdo">Phương Hoàng Diệu</h3>
+              <h6 class="m-0">7:10:50 PM - 22/4/2021</h6>
             </div>
           </div>
           <div class="right d-inline-block d-flex justify-content-end">
@@ -299,15 +306,15 @@
             </button>
             <div class="slides d-flex" id-blog="1">
               <div class="slider d-flex">
-                <img src="../../assets/images/cho-nhat-tao-543852.jpg" alt=""
+                <img src="./assets/images/cho-nhat-tao-543852.jpg" alt=""
                   class="img-fluid images border-radius-images">
               </div>
               <div class="slider d-flex">
-                <img src="../../assets/images/cho-nhat-tao-543852.jpg" alt=""
+                <img src="./assets/images/cho-nhat-tao-543852.jpg" alt=""
                   class="img-fluid images border-radius-images">
               </div>
               <div class="slider d-flex">
-                <img src="../../assets/images/cho-nhat-tao-543852.jpg" alt=""
+                <img src="./assets/images/cho-nhat-tao-543852.jpg" alt=""
                   class="img-fluid images border-radius-images">
               </div>
             </div>
@@ -517,13 +524,13 @@
       </div>
       <div class="div_bai_viet mt-4 w-100">
         <div class="div_info d-flex align-items-center w-100">
-          <div class="left d-inline-block d-flex align-items-center">
+          <div class="left d-inline-block d-flex align-items-center align-self-start">
             <div class="div_img d-inline-block mr-13px">
               <img src="../../assets/images/profile 2.png" class="img_avt" alt="">
             </div>
-            <div class="div_info_us d-inline-block">
+            <div class="div_info_us d-inline-block ">
               <h3>Phương Hoàng Diệu</h3>
-              <h6>7:10:50 PM - 22/4/2021</h6>
+              <h6 class="m-0">7:10:50 PM - 22/4/2021</h6>
             </div>
           </div>
           <div class="right d-inline-block d-flex justify-content-end">
@@ -674,7 +681,7 @@
           </div>
           <div class="binhluan w-100">
             <div class="info_us w-100">
-              <div class="user mt-4 w-100 d-flex align-items-center">
+              <div class="user mt-4 w-100 d-flex align-items-center ">
                 <div class="mr-13px d-flex align-self-start">
                   <img src="../../assets/images/profile 2.png" class="w_45px" alt="">
                 </div>
