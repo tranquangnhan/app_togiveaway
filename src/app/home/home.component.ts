@@ -3,7 +3,8 @@ import * as $ from "jquery";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DatablogsService } from '../datablogs.service';
 import { Router } from '@angular/router';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { UserService } from '../services/user.service';
+
 
 @Component({
   selector: 'app-home',
@@ -19,12 +20,14 @@ export class HomeComponent implements OnInit {
   public urlsImage = [];
   public bienDem = 0;
 
+  user;
   constructor(
     private formBuilder: FormBuilder,
     private router:Router,
     private datablog: DatablogsService,
-    private modalService: NgbModal
+    private userService:UserService
   ) {
+    this.user = JSON.parse(this.userService.getToken());
   }
 
   ngOnInit(): void {

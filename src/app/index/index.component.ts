@@ -53,11 +53,15 @@ export class IndexComponent implements OnInit {
           localStorage.setItem('loggedInUser', JSON.stringify(data));
           this.loggedUserSubject.next(data);
           console.log(data);
+          if(data !== null){
+            this.router.navigate(['/home']);
+          }
           return data;
           
         },
         error => {
             console.log(error);
+            this.router.navigate(['/home']);
         });
 
       }
