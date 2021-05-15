@@ -67,7 +67,7 @@ if (isset($_GET['act'])) {
                         array(
                             "message" => "Successful login.",
                             "jwt" => $jwt,
-                            "email" => $email,
+                            "name" => $name,
                             "expireAt" => $expire_claim,
                             "status"=>1
                         ));

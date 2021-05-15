@@ -3,6 +3,7 @@ import * as $ from "jquery";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DatablogsService } from '../datablogs.service';
 import { Router } from '@angular/router';
+import { UserService } from '../services/user.service';
 
 
 @Component({
@@ -16,11 +17,14 @@ export class HomeComponent implements OnInit {
   public checkClick = true;
   public checkclick_ = true;
   public showModal :boolean = false;
+  user;
   constructor(
     private formBuilder: FormBuilder,
     private router:Router,
     private datablog: DatablogsService,
+    private userService:UserService
   ) {
+    this.user = JSON.parse(this.userService.getToken());
   }
 
   ngOnInit(): void {
