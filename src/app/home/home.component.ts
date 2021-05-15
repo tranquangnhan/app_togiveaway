@@ -16,6 +16,9 @@ export class HomeComponent implements OnInit {
   public checkClick = true;
   public checkclick_ = true;
   public showModal :boolean = false;
+  public urlsImage = [];
+  public bienDem = 0;
+
   constructor(
     private formBuilder: FormBuilder,
     private router:Router,
@@ -32,24 +35,35 @@ export class HomeComponent implements OnInit {
     $('#' + iddrop).slideToggle(460);
   }
 
-  urlsImage = [];
+  removeImage(id) {
+    for (let i = 0; i < this.urlsImage.length; i++) {
+      if (id == this.urlsImage[i].id) {
+        this.urlsImage.splice(i, 1);
+      }
+    }
+  }
+
+  detailImage(e) {
+    var chilren = $('.box_img_detail').children();
+    if (chilren.length > 0) {
+      chilren.remove();
+    }
+    var currentSrc = e.target.currentSrc;
+    var img = '<img src="' + currentSrc + '" class="img-fluid" alt="">'
+    $('.box_img_detail').append(img);
+    document.getElementById("imageDetail_button").click();
+  }
 
   addImage(e) {
     if (e.target.files.length == 1) {
       this.previewImages = true;
-      this.urlsImage.push(e.target.files[0].name);
+      var data = {
+        "id": this.bienDem,
+        "url": e.target.files[0].name
+      }
+      this.urlsImage.push(data);
+      this.bienDem++;
     }
-    
-    console.log(this.urlsImage);
-    // if (e.target.files) {
-    //   for (var i = 0; i<File.length; i++) {
-    //     var reader = new FileReader();
-    //     reader.readAsDataURL(e.target.file[i]);
-    //     reader.onload=(events:any)=>{
-    //       this.urlsImage.push(events.target.result);
-    //     }
-    //   }
-    // }
   }
 
 
@@ -169,37 +183,45 @@ export class HomeComponent implements OnInit {
     var dataUs = JSON.parse(localStorage.getItem('user'));
     if (dataUs != '') {
       var content = $('#contentBlog').val();
-      var img = 'someImages';
       var date = new Date();
       // var ampm = date.getHours() >= 12 ? 'PM' : 'AM';
       // var datetimez = new Date().getTime();
-
       var datetime = date.getFullYear() + '-' + date.getMonth() + '-' + date.getSeconds() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+
+      if (this.urlsImage.length > 0) {
+        var arrayImage = this.getArrayImage();
+      }
+
       var data = {
         "content": content,
-        "images": img,
+        "images": arrayImage.toString(),
         "id_user": dataUs.id,
         "date_create": datetime
       }
-      console.log(data);
+
       this.datablog.addnewblog(data).subscribe(
         res=>{
           if (res == 1) {
             alert('Thêm thành công');
-            console.log('1');
           } else {
             // chưa nhập thông tin ///
-            var myModal = $('.motal_newmember');
-            myModal.show();
-            console.log('0');
+            document.getElementById("showFormNewMember_button").click();
           }
         }
       )
-    } else {
+    }
+    else {
       console.log('ban chua dang nhap');
     }
   }
-  closeResult: string;
 
+  getArrayImage() {
+    var arrayImage = [];
+    for (let i = 0; i < this.urlsImage.length; i++) {
+      arrayImage.push(this.urlsImage[i].url);
+    }
+    return arrayImage;
+  }
+  closeResult: string;
 
 }

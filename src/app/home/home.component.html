@@ -1,3 +1,4 @@
+<button type="button" id="showFormNewMember_button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#showFormNewMember"></button>
 <div class="modal fade motal_newmember" id="showFormNewMember" data-bs-backdrop="static" data-bs-keyboard="false"
   tabindex="-1" aria-labelledby="showFormNewMemberLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -38,6 +39,23 @@
     </div>
   </div>
 </div>
+
+<button type="button" id="imageDetail_button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#imageDetail">
+</button>
+<div class="modal fade motal_newmember" id="imageDetail" data-bs-backdrop="static" data-bs-keyboard="false"
+  tabindex="-1" aria-labelledby="showFormNewMemberLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg mt-5">
+    <div class="modal-content detail_img_content">
+      <div class="modal-body box_img_detail">
+        <!-- <img src="./assets/images/cho-nhat-tao-543852.jpg" class="img-fluid" alt=""> -->
+      </div>
+      <div class="ctrol">
+        <button type="button" class="button_close_modal" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <header class="d-flex align-items-center">
   <div class="container">
@@ -250,8 +268,12 @@
               <textarea name="" id="contentBlog" class="w-100" rows="1" placeholder="Bạn muốn đăng gì?"></textarea>
             </div>
             <div *ngIf="previewImages" class="box_preview_images mt-3">
-              <img *ngFor="let url of urlsImage" src="./assets/images/{{url}}" alt="" class="img-fluid img-review mr-12px" >
+              <div *ngFor="let url of urlsImage" class="d-inline-block div_image  position-relative">
+                <img  src="./assets/images/{{url.url}}" alt="{{url.id}}" class="img-fluid img-review mr-12px" (click)="detailImage($event)">
+                <button class="button_remove_image" (click)="removeImage(url.id)"><i class="fa fa-times" aria-hidden="true"></i></button>
+              </div>
               <div class="button_themanh">
+                <label for="files" class="cursor-point">+</label>
 
               </div>
             </div>
