@@ -15,7 +15,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let loggedInUser = this.datablog.currentUserValue;
-    var token = loggedInUser.jwt;
+    var token = loggedInUser?.jwt;
     if (token) {
         request = request.clone({
             setHeaders: {
