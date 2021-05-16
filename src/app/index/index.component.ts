@@ -51,7 +51,6 @@ export class IndexComponent implements OnInit {
         this.datablog.loginUser(data).subscribe(data=>{
           localStorage.setItem('loggedInUser', JSON.stringify(data));
           this.loggedUserSubject.next(data);
-          console.log(data);
           
           if(data !== null){
             this.router.navigate(['/home']);
@@ -60,8 +59,7 @@ export class IndexComponent implements OnInit {
           
         },
         error => {
-            console.log(error);
-            this.router.navigate(['/home']);
+              this.router.navigate(['/home']);
         });
 
       }

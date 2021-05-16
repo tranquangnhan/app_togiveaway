@@ -31,7 +31,7 @@ class Blogs extends  ModelDb
     function addNewBlog($content, $image, $status_post, $status_give, $id_user, $id_province, $date_create) {
       $SQL ="INSERT INTO `posts` (`content`, `images`, `status_post`, `status_give`, `id_user`, `id_province`, `date_create`) VALUES (?,?,?,?,?,?,?);";
       return $this->ModelDb->exec1($SQL, $content, $image, $status_post, $status_give, $id_user, $id_province, $date_create);
-  }
+   }
 
     function countAccount($id){
         $SQL ="SELECT COUNT(*) as soluong FROM accounts WHERE id=?";
