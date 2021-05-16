@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 export class DatablogsService {
 
 
-  heroesUrl = 'http://localhost/app_togiveaway/api/?act=';
+  apiUrl = 'http://localhost/app_togiveaway/api/?act=';
   public currentUserValue;
 
   constructor(private http: HttpClient) {
@@ -20,12 +20,12 @@ export class DatablogsService {
       'Content-Type':  'application/json'
     })
   };
-  addHero(data) {
-    return this.http.post(this.heroesUrl+'addAccount',{ "data": data }, this.httpOptions)
+  loginUser(data) {
+    return this.http.post(this.apiUrl+'loginUser',{ "data": data }, this.httpOptions)
   }
 
   addnewblog(data) {
-    return this.http.post(this.heroesUrl+'addNewBlog',{ "data": data }, this.httpOptions)
+    return this.http.post(this.apiUrl+'addNewBlog',{ "data": data }, this.httpOptions)
   }
   //   return this.http.post(this.heroesUrl+'addAccount',{ "data": data }, this.httpOptions)
   // }

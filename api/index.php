@@ -1,6 +1,7 @@
 <?php
 include_once 'Libs/loader.php';
 $blogs = new Models\Blogs;
+$users = new UsersModel\Users;
 use \Firebase\JWT\JWT;
 
 ini_set('display_errors', 'off');
@@ -26,7 +27,7 @@ if (isset($_GET['act'])) {
                 echo json_encode($Return);
             }
             break;
-        case 'addAccount':
+        case 'loginUser':
             $Return = array();
             $postdata = file_get_contents("php://input");
 
@@ -36,7 +37,6 @@ if (isset($_GET['act'])) {
 
                 $id =$request->data->id;
                 $email = $request->data->email; 
-                $kind = $request->data->kind; 
                 $name =  $request->data->name;
                 $photoUrl =  $request->data->photoUrl;
 
@@ -60,8 +60,8 @@ if (isset($_GET['act'])) {
                         "email" => $email
                 ));
 
-                if($blogs->countAccount($id)=="1"){
-                    http_response_code(200);
+                if($users->findUser($id)){
+                    // http_response_code(200);
                       $jwt = JWT::encode($token, $secret_key);
                         echo json_encode(
                         array(
@@ -73,8 +73,8 @@ if (isset($_GET['act'])) {
                         ));
 
                 }else{
-                    if($blogs->addAccount($id,$email,0,$kind)){
-                        http_response_code(200);
+                    if($users->addUser($id,$name,$photoUrl,$email)){
+                        // http_response_code(200);
                         $Return['message']="register success";
                         $Return['statusCode']= 1;
 

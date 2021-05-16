@@ -45,14 +45,14 @@ export class IndexComponent implements OnInit {
           id:this.socialUser.id,
           name:this.socialUser.name,
           email:this.socialUser.email,
-          kind: 0,
           photoUrl: this.socialUser.photoUrl
         }
 
-        this.datablog.addHero(data).subscribe(data=>{
+        this.datablog.loginUser(data).subscribe(data=>{
           localStorage.setItem('loggedInUser', JSON.stringify(data));
           this.loggedUserSubject.next(data);
           console.log(data);
+          
           if(data !== null){
             this.router.navigate(['/home']);
           }
