@@ -22,7 +22,16 @@ body {
   margin: 0 auto;
 }
 
-.useFontAwesomeFamily {
+.useFontAwesomeFamily::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  font-family: "fontawesome";
+}
+.useFontAwesomeFamily::-moz-placeholder { /* Firefox 19+ */
+  font-family: "fontawesome";
+}
+.useFontAwesomeFamily:-ms-input-placeholder { /* IE 10+ */
+  font-family: "fontawesome";
+}
+.useFontAwesomeFamily:-moz-placeholder { /* Firefox 18- */
   font-family: "fontawesome";
 }
 

@@ -7,7 +7,7 @@ import { IndexComponent } from './index/index.component';
 import { HeaderComponent } from './header/header.component';
 import { BodyComponent } from './body/body.component';
 import { HomeComponent } from './home/home.component';
-import { MenuleftComponent } from './menuleft/menuleft.component';
+// import { MenuleftComponent } from './menuleft/menuleft.component';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
@@ -19,6 +19,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { JwtModule } from '@auth0/angular-jwt';
 import { AuthInterceptor } from './auth.interceptor';
+import { LeftComponent } from './main/left/left/left.component';
+import { MenuComponent } from './main/menu/menu/menu.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { AuthInterceptor } from './auth.interceptor';
     HeaderComponent,
     BodyComponent,
     HomeComponent,
-    MenuleftComponent,
+    LeftComponent,
+    MenuComponent,
+    // MenuleftComponent,
   ],
   imports: [
     BrowserModule,

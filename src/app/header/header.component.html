@@ -1,1 +1,39 @@
-<p>header works</p>
+<header class="d-flex align-items-center">
+  <div class="container">
+  <div class="header_div left d-inline-block d-flex align-items-center float-start">
+    <div class="logo float-start mr-3pt">
+      <img src="./assets/images/free-delivery.png" alt="" class="img-fluid">
+    </div>
+    <div class="div_nav float-start">
+      <nav class="w-100">
+        <li>
+          <a href="">Cho Và Nhận </a>
+        </li>
+        <li>
+          <a href="">Ủng Hộ</a>
+        </li>
+        <li>
+          <a href="">Về Chúng Tôi</a>
+        </li>
+      </nav>
+    </div>
+  </div>
+  <div class="header_div right d-inline-block bd-highlight ">
+    <div class="timkiem position-relative float-end">
+      <form action="" id="seach" class="d-inline-block">
+        <input type="text" class="inputTimKiem" placeholder="Tìm kiếm">
+      </form>
+      <div class="icon_right_header d-inline-block">
+        <i class="fa fa-search" aria-hidden="true"></i>
+      </div>
+
+    </div>
+    <div class="user d-inline-block float-end">
+      <div class="d-inline-block cl-black-main">{{user?user.name:''}}</div>
+      <div class="icon_right_header d-inline-block mr-r-25px">
+        <i class="fa fa-user-o" aria-hidden="true"></i>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
