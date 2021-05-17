@@ -2,6 +2,7 @@
 include_once 'Libs/loader.php';
 $blogs = new Models\Blogs;
 $users = new UsersModel\Users;
+$province = new ProvincesModel\Provinces;
 use \Firebase\JWT\JWT;
 
 ini_set('display_errors', 'off');
@@ -36,16 +37,16 @@ if (isset($_GET['act'])) {
                 $request = json_decode($postdata);
 
                 $id =$request->data->id;
-                $email = $request->data->email; 
+                $email = $request->data->email;
                 $name =  $request->data->name;
                 $photoUrl =  $request->data->photoUrl;
 
                 $secret_key = "tranquangnhan";
-                $issuer_claim = "http://localhost:4200/"; 
+                $issuer_claim = "http://localhost:4200/";
                 $audience_claim = "http://localhost:4200/";
                 $issuedat_claim = time();
                 $notbefore_claim = $issuedat_claim + 10;
-                $expire_claim = $issuedat_claim + 60; 
+                $expire_claim = $issuedat_claim + 60;
 
                 $token = array(
                     "iss" => $issuer_claim,
@@ -87,7 +88,7 @@ if (isset($_GET['act'])) {
                             "expireAt" => $expire_claim,
                             "status"=>1
                         ));
-                   
+
                     }else{
                         $Return['message']="register error";
                         $Return['statusCode']= 1;
@@ -101,8 +102,8 @@ if (isset($_GET['act'])) {
             if (isset($postdata) && !empty($postdata)) {
                 $dataJSON = json_decode($postdata);
 
-                $id_account = $dataJSON->data->id_user;
-                $checkNhapLanDau = $blogs->getThongtinNhapLanDau($id_account);
+                $emailUser = $dataJSON->data->emailUser;
+                $checkNhapLanDau = $blogs->getThongtinNhapLanDau($emailUser);
                 if ($checkNhapLanDau['address'] != '' && $checkNhapLanDau['id_province'] != '' && $checkNhapLanDau['phone'] != '') {
 
                     $content = $dataJSON->data->content;
@@ -122,6 +123,11 @@ if (isset($_GET['act'])) {
                 echo json_encode($status);
             }
             break;
+        case 'getAllProvince':
+          $Return = array();
+          $Return['data'] = $province->getAllProvince();
+          echo json_encode($Return);
+          break;
         default:
             # code...
             break;

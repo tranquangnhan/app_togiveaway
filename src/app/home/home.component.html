@@ -22,8 +22,7 @@
           <div class="mb-4">
             <label for="" class="form-label">Thành Phố</label>
             <select name="" class="ip_modal_newmember w-100 form-control select_thanhpho" id="">
-              <option value="">Hồ Chí Minh</option>
-              <option value="">Hà Nội</option>
+              <option *ngFor="let province of allProvinces" value="{{ province.id }}">{{ province.id }} - {{ province.name }}</option>
             </select>
             <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
           </div>

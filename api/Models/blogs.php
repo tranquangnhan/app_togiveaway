@@ -23,9 +23,9 @@ class Blogs extends  ModelDb
         return $this->ModelDb->exec1($SQL,$id,$email,$role,$kind);
     }
 
-    function getThongtinNhapLanDau($id) {
-        $SQL = "SELECT id, phone, address, id_province FROM `users` WHERE id_account = $id";
-        return $this->ModelDb->result1(1,$SQL);
+    function getThongtinNhapLanDau($email) {
+        $SQL = "SELECT id, phone, address, id_province FROM `users` WHERE email = ?";
+        return $this->ModelDb->result1(1,$SQL, $email);
     }
 
     function addNewBlog($content, $image, $status_post, $status_give, $id_user, $id_province, $date_create) {

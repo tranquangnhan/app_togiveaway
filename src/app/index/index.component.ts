@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SocialAuthService, GoogleLoginProvider, SocialUser } from 'angularx-social-login';
-import { DatablogsService } from '../datablogs.service';
+import { DatablogsService } from '../services/datablogs.service';
 import { catchError, retry } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 import { throwError } from 'rxjs';
@@ -31,7 +31,7 @@ export class IndexComponent implements OnInit {
       this.loggedUserSubject = new BehaviorSubject(getLoggedUser);
       this.loggedInUser = this.loggedUserSubject.asObservable();
   }
-  
+
   ngOnInit(): void {
     this.socialAuthService.authState.subscribe((user) => {
       this.socialUser = user;
@@ -51,12 +51,12 @@ export class IndexComponent implements OnInit {
         this.datablog.loginUser(data).subscribe(data=>{
           localStorage.setItem('loggedInUser', JSON.stringify(data));
           this.loggedUserSubject.next(data);
-          
+
           if(data !== null){
             this.router.navigate(['/home']);
           }
           return data;
-          
+
         },
         error => {
               this.router.navigate(['/home']);

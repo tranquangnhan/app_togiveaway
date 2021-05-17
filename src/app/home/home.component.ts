@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import * as $ from "jquery";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DatablogsService } from '../datablogs.service';
+import { DatablogsService } from '../services/datablogs.service';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
+import { ProvincesService } from '../services/provinces.service';
 
 
 @Component({
@@ -16,16 +17,17 @@ export class HomeComponent implements OnInit {
   public previewImages = false;
   public checkClick = true;
   public checkclick_ = true;
-  public showModal :boolean = false;
+  public showModal: boolean = false;
   public urlsImage = [];
   public bienDem = 0;
-
+  public allProvinces;
   user;
   constructor(
     private formBuilder: FormBuilder,
-    private router:Router,
+    private router: Router,
     private datablog: DatablogsService,
-    private userService:UserService
+    private userService: UserService,
+    private ProvincesService: ProvincesService
   ) {
     this.user = JSON.parse(this.userService.getToken());
   }
@@ -128,7 +130,7 @@ export class HomeComponent implements OnInit {
   }
 
   resetBoolenCheck_(bienset, loai, timeset) {
-    setTimeout(function() {
+    setTimeout(function () {
       bienset = loai;
     }, timeset);
   }
@@ -155,7 +157,7 @@ export class HomeComponent implements OnInit {
   }
 
   showbinhluan(attributeName, idblog) {
-    var div = $("["+ attributeName +"=" + idblog + "]");
+    var div = $("[" + attributeName + "=" + idblog + "]");
     this.moveDivBinhluan(div);
   }
 
@@ -183,38 +185,55 @@ export class HomeComponent implements OnInit {
   }
 
   addnewblog() {
-    var dataUs = JSON.parse(localStorage.getItem('user'));
-    if (dataUs != '') {
-      var content = $('#contentBlog').val();
-      var date = new Date();
-      // var ampm = date.getHours() >= 12 ? 'PM' : 'AM';
-      // var datetimez = new Date().getTime();
-      var datetime = date.getFullYear() + '-' + date.getMonth() + '-' + date.getSeconds() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+    var content = $('#contentBlog').val();
+    if (content == '' && this.urlsImage.length == 0) {
+      alert('Bạn chưa nhập nội dung');
+    } else {
+      var dataUs = JSON.parse(localStorage.getItem('loggedInUser'));
+      if (dataUs != '') {
+        var datetime = new Date().getTime();
+        // var ampm = date.getHours() >= 12 ? 'PM' : 'AM';
+        // var datetimez = new Date().getTime();
+        // var datetime = date.getFullYear() + '-' + date.getMonth() + '-' + date.getSeconds() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+        if (this.urlsImage.length > 0) {
 
-      if (this.urlsImage.length > 0) {
-        var arrayImage = this.getArrayImage();
-      }
+          var Images = this.getArrayImage();
+          arrayImage = Images.toString()
 
-      var data = {
-        "content": content,
-        "images": arrayImage.toString(),
-        "id_user": dataUs.id,
-        "date_create": datetime
-      }
-
-      this.datablog.addnewblog(data).subscribe(
-        res=>{
-          if (res == 1) {
-            alert('Thêm thành công');
-          } else {
-            // chưa nhập thông tin ///
-            document.getElementById("showFormNewMember_button").click();
-          }
+        } else {
+          var arrayImage = '';
         }
-      )
-    }
-    else {
-      console.log('ban chua dang nhap');
+
+        var data = {
+          "content": content,
+          "images": arrayImage,
+          "emailUser": dataUs.email,
+          "date_create": datetime
+        }
+
+        this.datablog.addnewblog(data).subscribe(
+          res => {
+            if (res == 1)
+            {
+              alert('Thêm thành công');
+              $('#contentBlog').val('');
+              this.urlsImage = [];
+            } else // chưa nhập thông tin ///
+            {
+              this.ProvincesService.getAllProvinces().subscribe(
+                respon => {
+                this.allProvinces = respon['data'];
+                console.log(this.allProvinces);
+              });
+
+              document.getElementById("showFormNewMember_button").click();
+            }
+          }
+        )
+      }
+      else {
+        console.log('ban chua dang nhap');
+      }
     }
   }
 
