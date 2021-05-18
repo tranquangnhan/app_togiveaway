@@ -489,32 +489,41 @@
   tabindex="-1" aria-labelledby="showFormNewMemberLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content top-70px">
-
       <div class="modal-body body_modal_newmember">
         <img src="./assets/images/user clmain.png" class="img_motal_newmember" alt="">
-
-        <form>
+        <form (ngSubmit)="subNhapLanDau()" >
           <div class="mb-3">
             <label class="form-label">Số điện thoại</label>
-            <input type="text" class="form-control useFontAwesomeFamily ip_modal_newmember" placeholder="&#xf095;">
+            <input type="text" class="form-control useFontAwesomeFamily ip_modal_newmember" minlength="9" maxlength="13" pattern="^[0][0-9]*" id="sodienthoai" placeholder="&#xf095;" [(ngModel)]='sodienthoai' required name="phone" #phone='ngModel' ngModel>
+            <div *ngIf="phone.errors && (phone.dirty || phone.touched) ">
+              <div [hidden]="!phone.errors.pattern">
+                  <div id="" class="form-text">Số phải bắt đầu là 0</div>
+              </div>
+              <div [hidden]="!phone.errors.required">
+                  <div id="" class="form-text">Vui lòng nhập số điện thoại.</div>
+              </div>
+            </div>
           </div>
           <div class="mb-3">
             <label for="" class="form-label">Địa chỉ</label>
-            <input type="text" class="form-control ip_modal_newmember useFontAwesomeFamily" id=""
-              placeholder="&#xf041;">
-            <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+            <input type="text" class="form-control ip_modal_newmember useFontAwesomeFamily" id="diachi"
+              placeholder="&#xf041;" [(ngModel)]='diachi' required name="addr" #addr='ngModel' ngModel>
+            <div *ngIf="addr.errors && (addr.dirty || addr.touched) ">
+              <div [hidden]="!addr.errors.required">
+                  <div id="" class="form-text">Vui lòng nhập địa chỉ.</div>
+              </div>
+            </div>
           </div>
           <div class="mb-4">
             <label for="" class="form-label">Thành Phố</label>
-            <select name="" class="ip_modal_newmember w-100 form-control select_thanhpho" id="">
+            <select name="" class="ip_modal_newmember w-100 form-control select_thanhpho" id="thanhpho">
               <option *ngFor="let province of allProvinces" value="{{ province.id }}">{{ province.id }} - {{
                 province.name }}</option>
             </select>
             <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
           </div>
           <div class="w-100 text-center">
-            <button type="button" class="btn xacnhan_modal_newmember mx-auto">Xác nhận</button>
-
+            <button type="submit" class="btn xacnhan_modal_newmember mx-auto">Xác nhận</button>
           </div>
         </form>
       </div>

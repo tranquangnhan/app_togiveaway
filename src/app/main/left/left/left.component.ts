@@ -21,17 +21,50 @@ export class LeftComponent implements OnInit {
   public previewImages = false;
   public checkclick_ = true;
   public showModal: boolean = false;
-  public allProvinces;
+  public allProvinces = [];
+  public sodienthoai: number
+  public diachi: string
+  public thanhpho: number
 
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private datablog: DatablogsService,
     private userService: UserService,
-    private ProvincesService: ProvincesService
+    private ProvincesService: ProvincesService,
+
+
   ) { }
 
   ngOnInit(): void {
+  }
+
+
+
+  subNhapLanDau(): void {
+    if (this.diachi != null) {
+
+      var idtp = $('#thanhpho').val();
+      var idus = this.getIdUs();
+
+      var data = {
+        'idtp': idtp,
+        'sodienthoai': this.sodienthoai,
+        'diachi': this.diachi,
+        'id': idus
+      }
+
+      this.userService.usNhapLanDau(data).subscribe(
+        res => {
+          if (res == 1) {
+            document.getElementById("showFormNewMember_button").click();
+            setTimeout(() => {
+              this.addnewblog();
+            }, 600);
+          }
+        }
+      )
+    }
   }
 
   removeImage(id) {
@@ -75,13 +108,9 @@ export class LeftComponent implements OnInit {
     if (content == '' && this.urlsImage.length == 0) {
       alert('Bạn chưa nhập nội dung');
     } else {
-      var loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
-      var token = loggedInUser.jwt
-      var jwtDecodeToken = jwt_decode(token);
-      var dataUs = jwtDecodeToken['data'];
-      var emailUs = dataUs.email;
+      var idUs = this.getIdUs();
 
-      if (loggedInUser != '') {
+      if (idUs != '') {
         var datetime = new Date().getTime();
         // var ampm = date.getHours() >= 12 ? 'PM' : 'AM';
         // var datetimez = new Date().getTime();
@@ -98,11 +127,10 @@ export class LeftComponent implements OnInit {
         var data = {
           "content": content,
           "images": arrayImage,
-          "emailUser": emailUs,
+          "idUs": idUs,
           "date_create": datetime
         }
 
-        console.log(data);
         this.datablog.addnewblog(data).subscribe(
           res => {
             if (res == 1)
@@ -112,11 +140,10 @@ export class LeftComponent implements OnInit {
               this.urlsImage = [];
             } else // chưa nhập thông tin ///
             {
-              if (this.allProvinces == '') {
+              if (this.allProvinces.length == 0) {
                 this.ProvincesService.getAllProvinces().subscribe(
                   respon => {
                   this.allProvinces = respon['data'];
-                  console.log(this.allProvinces);
                 });
               }
               document.getElementById("showFormNewMember_button").click();
@@ -216,5 +243,27 @@ export class LeftComponent implements OnInit {
       "maxTranlateX": maxTranlateX,
       "tranlatex_value_now": tranlatex_value_now
     }
+  }
+
+  nhapLanDau() {
+
+  }
+
+  getEmailUs() {
+    var loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+    var token = loggedInUser.jwt
+    var jwtDecodeToken = jwt_decode(token);
+    var dataUs = jwtDecodeToken['data'];
+    var emailUs = dataUs.email;
+    return emailUs;
+  }
+
+  getIdUs() {
+    var loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+    var token = loggedInUser.jwt
+    var jwtDecodeToken = jwt_decode(token);
+    var dataUs = jwtDecodeToken['data'];
+    var idUs = dataUs.id;
+    return idUs;
   }
 }

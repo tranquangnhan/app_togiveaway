@@ -1,3 +1,4 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -6,8 +7,19 @@ import { Router } from '@angular/router';
 })
 export class UserService {
 
-  constructor(private router:Router) { }
-  
+  apiUrl = 'http://localhost/app_togiveaway/api/?act=';
+
+  public httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type':  'application/json'
+    })
+  };
+
+  constructor(
+    private router:Router,
+    private http: HttpClient
+    ) { }
+
   getToken(){
     return localStorage.getItem('loggedInUser');
   }
@@ -27,5 +39,9 @@ export class UserService {
   logout(){
     this.removeToken();
     this.router.navigate(['/']);
+  }
+
+  usNhapLanDau(data) {
+    return this.http.post(this.apiUrl+'usnhapLanDau',{ "data" :data }, this.httpOptions)
   }
 }

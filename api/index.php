@@ -102,8 +102,8 @@ if (isset($_GET['act'])) {
             if (isset($postdata) && !empty($postdata)) {
                 $dataJSON = json_decode($postdata);
 
-                $emailUser = $dataJSON->data->emailUser;
-                $checkNhapLanDau = $blogs->getThongtinNhapLanDau($emailUser);
+                $idUs = $dataJSON->data->idUs;
+                $checkNhapLanDau = $blogs->getThongtinNhapLanDau($idUs);
                 if ($checkNhapLanDau['address'] != '' && $checkNhapLanDau['id_province'] != '' && $checkNhapLanDau['phone'] != '') {
 
                     $content = $dataJSON->data->content;
@@ -127,6 +127,25 @@ if (isset($_GET['act'])) {
           $Return = array();
           $Return['data'] = $province->getAllProvince();
           echo json_encode($Return);
+          break;
+        case 'usnhapLanDau':
+          $postdata = file_get_contents("php://input");
+          if (isset($postdata) && !empty($postdata))
+          {
+            $dataJSON = json_decode($postdata);
+
+            $account_id = $dataJSON->data->id;
+            $sodienthoai = $dataJSON->data->sodienthoai;
+            $diachi = $dataJSON->data->diachi;
+            $thanhpho = $dataJSON->data->idtp;
+
+            $users->themThongTinLanDau($account_id, $sodienthoai, $diachi, $thanhpho);
+            $status = 1;
+          }
+          else {
+            $status = 0;
+          }
+          echo json_encode($status);
           break;
         default:
             # code...
