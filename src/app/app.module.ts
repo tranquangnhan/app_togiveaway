@@ -21,6 +21,7 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { AuthInterceptor } from './auth.interceptor';
 import { LeftComponent } from './main/left/left/left.component';
 import { MenuComponent } from './main/menu/menu/menu.component';
+import { FileUploadModule } from "ng2-file-upload";
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { MenuComponent } from './main/menu/menu/menu.component';
     HttpClientModule,
     FormsModule,
     NgbModule,
-    JwtModule
+    JwtModule,
+    FileUploadModule
   ],
   providers: [
     {

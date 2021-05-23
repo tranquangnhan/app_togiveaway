@@ -5,7 +5,10 @@ import { DatablogsService } from '../../../services/datablogs.service';
 import { Router } from '@angular/router';
 import { UserService } from '../../../services/user.service';
 import { ProvincesService } from '../../../services/provinces.service';
+import { FileUploader, FileItem } from 'ng2-file-upload';
+import { HttpClient } from '@angular/common/http';
 import jwt_decode from "jwt-decode";
+
 
 @Component({
   selector: 'app-left',
@@ -25,21 +28,67 @@ export class LeftComponent implements OnInit {
   public sodienthoai: number
   public diachi: string
   public thanhpho: number
+  public user;
 
+  public URL = 'http://localhost/app_togiveaway/api/upload';
+  public uploader: FileUploader = new FileUploader({
+    url: this.URL,
+    maxFileSize: 15* 1024 * 1024,
+    // allowedFileType: ['png', 'jpg']
+  });
+
+  public hasBaseDropZoneOver = true;
+  public uploadedFile = []
+  public selectedFile: File;
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private datablog: DatablogsService,
     private userService: UserService,
     private ProvincesService: ProvincesService,
+    private http: HttpClient
 
+  ) {
 
-  ) { }
-
-  ngOnInit(): void {
   }
 
+  ngOnInit(): void {
+    this.user = JSON.parse(this.userService.getToken());
 
+    this.uploader.onAfterAddingFile = (fileItem: FileItem): any => {
+        console.log('Uploader onAfterAddingFile', fileItem);
+    };
+
+    this.uploader.onBeforeUploadItem = (fileItem: FileItem): any => {
+        console.log('Uploader onBeforeUploadItem', fileItem);
+        return { fileItem };
+    };
+
+    this.uploader.onProgressItem = (progress: any) => {
+        console.log('onProgressItem: ' + progress['propress']);
+        // this.changeDetector.detectChanges();
+    };
+
+    this.uploader.onCompleteItem = (FileItem: FileItem): any => {
+        console.log('Uploader onCompleteItem',FileItem);
+        this.uploadedFile.push({
+            name: FileItem.file.name,
+            size: FileItem.file.size
+        });
+    };
+
+    this.uploader.onCompleteAll = (): any => {
+        this.uploader.clearQueue();
+    }
+  };
+
+  public UploadAll() {
+      this.uploader.uploadAll();
+  }
+
+  public fileOverBase(e: any) {
+      this.hasBaseDropZoneOver = e;
+  }
 
   subNhapLanDau(): void {
     if (this.diachi != null) {
@@ -57,14 +106,18 @@ export class LeftComponent implements OnInit {
       this.userService.usNhapLanDau(data).subscribe(
         res => {
           if (res == 1) {
-            document.getElementById("showFormNewMember_button").click();
+            this.openModalById("showFormNewMember_button");
             setTimeout(() => {
-              this.addnewblog();
+              this.checkAddNewBlog();
             }, 600);
           }
         }
       )
     }
+  }
+
+  openModalById(id) {
+    document.getElementById(id).click();
   }
 
   removeImage(id) {
@@ -87,15 +140,33 @@ export class LeftComponent implements OnInit {
   }
 
   addImage(e) {
-    if (e.target.files.length == 1) {
-      this.previewImages = true;
-      var data = {
+    let files = e.target.files;
+    let file;
+    var lengthNow;
+    var lengthFile = files.length;
+
+    if (this.urlsImage.length > 0) {
+      lengthNow = this.urlsImage.length;
+    } else {
+      lengthNow = 0;
+    }
+    for (let i = 0; i < lengthFile; i++){
+      let data = {
         "id": this.bienDem,
-        "url": e.target.files[0].name
+        "files": files[i],
+        "url": files[i].name,
       }
       this.urlsImage.push(data);
       this.bienDem++;
+
+      let reader = new FileReader();
+      file = files [i];
+      reader.onload = (file) => {
+        this.urlsImage[lengthNow + i]["dataURL"] = reader.result;
+      }
+      reader.readAsDataURL(file)
     }
+    this.previewImages = true;
   }
 
   showFromTraloi(idblog, sttbinhluan) {
@@ -103,7 +174,23 @@ export class LeftComponent implements OnInit {
     this.moveDivBinhluan(div);
   }
 
-  addnewblog() {
+  uploadImage() {
+    const uploadData = new FormData();
+    for (let i = 0; i<this.urlsImage.length; i++) {
+      uploadData.append('myFile[]', this.urlsImage[i]['files'], this.urlsImage[i]['url']);
+    }
+    this.http.post('http://localhost/app_togiveaway/api/?act=moveImageUpload', uploadData, {
+      reportProgress: true,
+    }).subscribe(event => {
+      if (event == this.urlsImage.length) {
+        console.log('upload thành công');
+      } else {
+        console.log('upload thất bại');
+      }
+    })
+  }
+
+  checkAddNewBlog() {
     var content = $('#contentBlog').val();
     if (content == '' && this.urlsImage.length == 0) {
       alert('Bạn chưa nhập nội dung');
@@ -112,49 +199,59 @@ export class LeftComponent implements OnInit {
 
       if (idUs != '') {
         var datetime = new Date().getTime();
-        // var ampm = date.getHours() >= 12 ? 'PM' : 'AM';
-        // var datetimez = new Date().getTime();
-        // var datetime = date.getFullYear() + '-' + date.getMonth() + '-' + date.getSeconds() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
-        if (this.urlsImage.length > 0) {
+        var arrayImage = this.getArrayImageToString();
 
-          var Images = this.getArrayImage();
-          arrayImage = Images.toString()
-
-        } else {
-          var arrayImage = '';
-        }
-
-        var data = {
-          "content": content,
-          "images": arrayImage,
-          "idUs": idUs,
-          "date_create": datetime
-        }
-
-        this.datablog.addnewblog(data).subscribe(
-          res => {
-            if (res == 1)
-            {
-              alert('Thêm thành công');
-              $('#contentBlog').val('');
-              this.urlsImage = [];
-            } else // chưa nhập thông tin ///
-            {
-              if (this.allProvinces.length == 0) {
-                this.ProvincesService.getAllProvinces().subscribe(
-                  respon => {
-                  this.allProvinces = respon['data'];
-                });
-              }
-              document.getElementById("showFormNewMember_button").click();
-            }
-          }
-        )
+        var data = this.getDataForBlog(content, arrayImage, idUs, datetime);
+        this.uploadImage();
+        this.addNewBlog(data);
       }
       else {
         console.log('ban chua dang nhap');
       }
     }
+  }
+
+  getArrayImageToString() {
+    if (this.urlsImage.length > 0) {
+      var Images = this.getArrayImage();
+      var arrayImage = Images.toString();
+    } else {
+      var arrayImage = '';
+    }
+    return arrayImage;
+  }
+
+  addNewBlog(data) {
+    this.datablog.addnewblog(data).subscribe(
+      res => {  console.log(res);
+        if (res == 1)
+        {
+          alert('Thêm thành công');
+          $('#contentBlog').val('');
+          this.urlsImage = [];
+        }
+        if (res == 0) // chưa nhập thông tin ///
+        {
+          if (this.allProvinces.length == 0) {
+            this.ProvincesService.getAllProvinces().subscribe(
+              respon => {
+              this.allProvinces = respon['data'];
+            });
+          }
+          document.getElementById("showFormNewMember_button").click();
+        }
+      }
+    )
+  }
+
+  getDataForBlog(content, arrayImage, idUs, datetime) {
+    var data = {
+      "content": content,
+      "images": arrayImage,
+      "idUs": idUs,
+      "date_create": datetime
+    }
+    return data
   }
 
   getArrayImage() {
@@ -243,10 +340,6 @@ export class LeftComponent implements OnInit {
       "maxTranlateX": maxTranlateX,
       "tranlatex_value_now": tranlatex_value_now
     }
-  }
-
-  nhapLanDau() {
-
   }
 
   getEmailUs() {

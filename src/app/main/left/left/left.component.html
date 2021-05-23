@@ -6,7 +6,7 @@
       </div>
       <div *ngIf="previewImages" class="box_preview_images mt-3">
         <div *ngFor="let url of urlsImage" class="d-inline-block div_image  position-relative">
-          <img src="./assets/images/{{url.url}}" alt="{{url.id}}" class="img-fluid img-review mr-12px"
+          <img src="{{url.dataURL}}" alt="{{url.id}}" class="img-fluid img-review mr-12px"
             (click)="detailImage($event)">
           <button class="button_remove_image" (click)="removeImage(url.id)"><i class="fa fa-times"
               aria-hidden="true"></i></button>
@@ -19,7 +19,9 @@
       <div class="control w-100 mt-3">
         <div class="row w-100 mx-auto">
           <div class="col-8 p-0">
-            <div class="row">
+            <div
+              class="row"
+            >
               <img src="../../assets/images/picture.png" alt="" class="w_70px">
               <div class="p-0 d-flex align-items-center fz-11pt w-110px">
                 <label for="files" class="cursor-point">Images / Videos</label>
@@ -30,7 +32,7 @@
           </div>
           <div class="col-4 p-0 d-flex align-items-center">
             <div class="right w-100">
-              <button type="button" class="float-end" id="btn_chiase" (click)="addnewblog();">Chia sẻ</button>
+              <button type="button" class="float-end" id="btn_chiase" (click)="checkAddNewBlog();">Chia sẻ</button>
             </div>
           </div>
         </div>
