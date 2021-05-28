@@ -147,6 +147,7 @@ if (isset($_GET['act'])) {
           }
           echo json_encode($status);
           break;
+          
         default:
             # code...
             break;
