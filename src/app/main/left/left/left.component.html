@@ -101,7 +101,7 @@
                 </p>
               </div>
               <div class="control_inComment w-100">
-                <div class="btn_rep cl-main" *ngIf="comment.data_rep?.length > 0; else khongcoaitraloi" (click)="showFromTraloi(blog.id, i)">Xem trả lời ({{ comment.data_rep.length }})</div>
+                <div class="btn_rep cl-main" *ngIf="comment.data_rep?.length > 0 else khongcoaitraloi" (click)="showFromTraloi(blog.id, i)">Xem trả lời ({{ comment.data_rep.length }})</div>
 
                 <ng-template #khongcoaitraloi>
                   <div class="btn_rep cl-main" (click)="showFromTraloi(blog.id, i)">Trả lời</div>

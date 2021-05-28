@@ -186,7 +186,40 @@ if (isset($_GET['act'])) {
           }
           echo json_encode($status);
           break;
-          
+         
+        case 'updatelike':
+          $data = array();
+          $postdata = file_get_contents("php://input");
+          if (isset($postdata) && !empty($postdata))
+          {
+            $dataJSON = json_decode($postdata);
+
+            $idBlog = $dataJSON->data->idBlog;
+            $idUser = $dataJSON->data->idUser;
+
+            $allIdLike = $comments->getIdUserLike($idBlog);
+            
+            $allIdLike = explode(",",$allIdLike);
+
+            $indexId = array_search($idUser, $allIdLike);
+
+            if($indexId === false){
+              array_push($allIdLike,$idUser);
+              $data['statusCode'] = 1;
+            }else{
+              array_splice($allIdLike,$indexId,1);
+              $data['statusCode'] = 2;
+            }
+
+            $allIdLike = implode(",",$allIdLike);
+
+            $comments->updateIdUserLike($allIdLike,$idBlog);
+          }
+          else {
+            $data['statusCode'] = 0;
+          }
+          echo json_encode($data);
+          break;
         default:
             # code...
             break;
