@@ -8,7 +8,7 @@ import { ProvincesService } from '../../../services/provinces.service';
 import { FileUploader, FileItem } from 'ng2-file-upload';
 import { HttpClient } from '@angular/common/http';
 import jwt_decode from "jwt-decode";
-
+import { CommentService } from '../../../services/comment.service';
 
 @Component({
   selector: 'app-left',
@@ -20,16 +20,20 @@ import jwt_decode from "jwt-decode";
 })
 export class LeftComponent implements OnInit {
   public urlsImage = [];
-  public bienDem = 0;
-  public previewImages = false;
-  public checkclick_ = true;
-  public showModal: boolean = false;
   public allProvinces = [];
+  public dataBlog = [];
+
+  public previewImages: boolean  = false;
+  public checkclick_: boolean  = true;
+  public showModal: boolean = false;
+  isString(val): boolean { return typeof val === 'string'; }
+
   public sodienthoai: number
   public diachi: string
   public thanhpho: number
   public user;
 
+  public urlImage = 'http://localhost/app_togiveaway/api/upload/';
   public URL = 'http://localhost/app_togiveaway/api/upload';
   public uploader: FileUploader = new FileUploader({
     url: this.URL,
@@ -45,11 +49,61 @@ export class LeftComponent implements OnInit {
     private router: Router,
     private datablog: DatablogsService,
     private userService: UserService,
+    private CommentService: CommentService,
     private ProvincesService: ProvincesService,
     private http: HttpClient
 
   ) {
+    this.loadBlogs();
+  }
 
+  loadBlogs() {
+    this.datablog.getAllBlogs().subscribe(
+      respon => {
+        var data = respon['data'];
+        for (let i = 0; i < data.length; i++) {
+          var strImage = data[i]['images'].split(",");
+          data[i]['rrImage'] = strImage;
+
+          let time = this.getDateTimeByTimestamp(data[i]['date_create']);
+          data[i]['date_create'] = time;
+
+          this.getAndPushDataUserById(data[i]['id_user'], data[i]);
+
+          this.CommentService.getCommentByIdBlog(data[i]['id']).subscribe(
+            response => {
+              if (response != '') {
+                for (let key in response) {
+                  let idComment = response[key]['id'];
+                  this.getAndPushDataUserById(response[key]['id_user'], response[key]);
+
+                  this.CommentService.getRepCommentByIdComment(idComment).subscribe(
+                    res => {
+                      if (res != '') {
+                        response[key]['data_rep'] = res;
+                      }
+                    }
+                  )
+                }
+              }
+              data[i]['data_comment'] = response;
+            }
+          )
+        }
+        console.log(this.dataBlog);
+
+        this.dataBlog = data;
+        console.log(this.dataBlog);
+      }
+    )
+  }
+
+  getAndPushDataUserById(id, where) {
+    this.userService.getUsById(id).subscribe( // get thong tin us
+      response => {
+        where['data_user'] = response;
+      }
+    );
   }
 
   ngOnInit(): void {
@@ -81,6 +135,53 @@ export class LeftComponent implements OnInit {
         this.uploader.clearQueue();
     }
   };
+
+  // public getDataUserById(idForm:string): Observable<string> {
+  //   var Subject = new Subject<string>();
+  //   this.userService.getUsById(26).subscribe( // get thong tin us
+  //     response => {
+  //       data = response;
+  //     }
+  //   );
+  //   return data.asObservable();
+  // }
+
+  public getDateTimeByTimestamp(timeBlog) {
+    var str;
+    var now = new Date().getTime();
+
+    timeBlog = timeBlog - 86400000 * 2;
+
+    var khoanCach = now - timeBlog;
+
+    var timeSta = now - khoanCach;
+    var dateTime = new Date(timeSta);
+
+    if (khoanCach > 990 && khoanCach < 59999) { // secconds
+        str = khoanCach / 1000;
+        str = parseInt(str);
+        str = str + ' giây trước';
+    }
+    if (khoanCach > 60000 && khoanCach < 3599000) { // minutes
+        str = khoanCach / 60000;
+        str = parseInt(str);
+        str = str + ' phút Trước';
+    }
+    if (khoanCach >= 3599900 && khoanCach < 86400000) { // house
+        str = khoanCach / 3600000;
+        str = Math.round(str);
+        str = str + ' tiếng trước';
+    }
+    if (khoanCach >= 86400000 && khoanCach < 86400000 * 28) { // ngày
+        str = khoanCach / 86400000;
+        str = Math.round(str);
+        str = str + ' ngày trước';
+    }
+    if (khoanCach >= 86400000 * 28) { // > 28 ngày
+        str = dateTime.getDate() + '/' + dateTime.getMonth() + '/' + dateTime.getFullYear();
+    }
+    return str;
+  }
 
   public UploadAll() {
       this.uploader.uploadAll();
@@ -139,7 +240,9 @@ export class LeftComponent implements OnInit {
     document.getElementById("imageDetail_button").click();
   }
 
+  public bienDem = 0;
   addImage(e) {
+    var dieuKienTrue = "image";
     let files = e.target.files;
     let file;
     var lengthNow;
@@ -151,20 +254,26 @@ export class LeftComponent implements OnInit {
       lengthNow = 0;
     }
     for (let i = 0; i < lengthFile; i++){
-      let data = {
-        "id": this.bienDem,
-        "files": files[i],
-        "url": files[i].name,
-      }
-      this.urlsImage.push(data);
-      this.bienDem++;
+      let str = e.target.files[i].type;
+      let st = str.substring(0, 5);
 
-      let reader = new FileReader();
-      file = files [i];
-      reader.onload = (file) => {
-        this.urlsImage[lengthNow + i]["dataURL"] = reader.result;
+      if (st === dieuKienTrue) {
+        let data = {
+          "id": this.bienDem,
+          "files": files[i],
+          "url": files[i].name,
+        }
+        this.urlsImage.push(data);
+        this.bienDem++;
+
+        let reader = new FileReader();
+        file = files [i];
+        reader.onload = (file) => {
+          this.urlsImage[lengthNow + i]["dataURL"] = reader.result;
+        }
+        reader.readAsDataURL(file)
       }
-      reader.readAsDataURL(file)
+
     }
     this.previewImages = true;
   }
@@ -313,6 +422,7 @@ export class LeftComponent implements OnInit {
   }
 
   nextImages(idblog) {
+    console.log(idblog);
     if (this.checkclick_ == true) {
       this.checkclick_ = false;
 

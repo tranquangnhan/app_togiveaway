@@ -14,7 +14,7 @@ class Blogs extends  ModelDb
 
     function showAllBlog()
     {
-        $SQL ="SELECT * FROM posts";
+        $SQL ="SELECT * FROM posts ORDER BY date_create DESC";
         return $this->ModelDb->result1(0,$SQL);
     }
 

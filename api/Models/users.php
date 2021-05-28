@@ -33,6 +33,11 @@ class Users extends  ModelDb
       return $this->ModelDb->exec1($SQL, $sodienthoai, $diachi, $thanhpho, $account_id);
     }
 
+    function getUsByIdForBlog($id) {
+      $SQL = "SELECT name, image, phone, email, address, point, id_province FROM `users` WHERE id = $id";
+      return $this->ModelDb->result1(1,$SQL);
+    }
+
 }
 
 ?>

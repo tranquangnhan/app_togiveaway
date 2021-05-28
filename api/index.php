@@ -4,7 +4,7 @@ include_once 'libs/myfunction.php';
 $blogs = new Models\Blogs;
 $users = new UsersModel\Users;
 $province = new ProvincesModel\Provinces;
-
+$comments = new Models\Comments;
 
 use \Firebase\JWT\JWT;
 
@@ -31,6 +31,17 @@ if (isset($_GET['act'])) {
                 echo json_encode($Return);
             }
             break;
+        case 'getUsById':
+          $postdata = file_get_contents("php://input");
+
+          $json = json_decode($postdata);
+
+          $id = $json->id;
+
+          $data = $users->getUsByIdForBlog($id);
+
+          echo json_encode($data);
+          break;
         case 'loginUser':
             $Return = array();
             $postdata = file_get_contents("php://input");
@@ -99,6 +110,22 @@ if (isset($_GET['act'])) {
                 }
             }
             break;
+        case 'getAllCommentByIdBlog':
+          $postdata = file_get_contents("php://input");
+          $data = json_decode($postdata);
+          $id = $data->id;
+          $dataComment = $comments->getAllCommentByIdBlog($id);
+
+          echo json_encode($dataComment);
+          break;
+        case 'getRepCommentByIdComment':
+          $postdata = file_get_contents("php://input");
+          $data = json_decode($postdata);
+          $id = $data->id;
+          $dataRepComment = $comments->getRepCommentByIdComment($id);
+
+          echo json_encode($dataRepComment);
+          break;
         case 'moveImageUpload':
           $files = $_FILES['myFile'];
           $bienDem = 0;
