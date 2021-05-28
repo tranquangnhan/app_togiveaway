@@ -44,4 +44,8 @@ export class UserService {
   usNhapLanDau(data) {
     return this.http.post(this.apiUrl+'usnhapLanDau',{ "data" :data }, this.httpOptions)
   }
+
+  getUsById(id) {
+    return this.http.post(this.apiUrl + "getUsById", { id }, this.httpOptions);
+  }
 }

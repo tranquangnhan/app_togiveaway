@@ -1,8 +1,11 @@
 <?php
 include_once 'Libs/loader.php';
+include_once 'libs/myfunction.php';
 $blogs = new Models\Blogs;
 $users = new UsersModel\Users;
 $province = new ProvincesModel\Provinces;
+$comments = new Models\Comments;
+
 use \Firebase\JWT\JWT;
 
 ini_set('display_errors', 'off');
@@ -28,6 +31,17 @@ if (isset($_GET['act'])) {
                 echo json_encode($Return);
             }
             break;
+        case 'getUsById':
+          $postdata = file_get_contents("php://input");
+
+          $json = json_decode($postdata);
+
+          $id = $json->id;
+
+          $data = $users->getUsByIdForBlog($id);
+
+          echo json_encode($data);
+          break;
         case 'loginUser':
             $Return = array();
             $postdata = file_get_contents("php://input");
@@ -96,6 +110,32 @@ if (isset($_GET['act'])) {
                 }
             }
             break;
+        case 'getAllCommentByIdBlog':
+          $postdata = file_get_contents("php://input");
+          $data = json_decode($postdata);
+          $id = $data->id;
+          $dataComment = $comments->getAllCommentByIdBlog($id);
+
+          echo json_encode($dataComment);
+          break;
+        case 'getRepCommentByIdComment':
+          $postdata = file_get_contents("php://input");
+          $data = json_decode($postdata);
+          $id = $data->id;
+          $dataRepComment = $comments->getRepCommentByIdComment($id);
+
+          echo json_encode($dataRepComment);
+          break;
+        case 'moveImageUpload':
+          $files = $_FILES['myFile'];
+          $bienDem = 0;
+          $upload_dir = 'upload';
+          for ($i = 0; $i< count($files['name']); $i++) {
+            move_uploaded_file($files['tmp_name'][$i], $upload_dir. '/' .$files['name'][$i]);
+            $bienDem++;
+          }
+          echo json_encode($bienDem);
+          break;
         case 'addNewBlog':
             $postdata = file_get_contents("php://input");
 
@@ -105,7 +145,6 @@ if (isset($_GET['act'])) {
                 $idUs = $dataJSON->data->idUs;
                 $checkNhapLanDau = $blogs->getThongtinNhapLanDau($idUs);
                 if ($checkNhapLanDau['address'] != '' && $checkNhapLanDau['id_province'] != '' && $checkNhapLanDau['phone'] != '') {
-
                     $content = $dataJSON->data->content;
                     $images = $dataJSON->data->images;
                     $status_post = 0;
@@ -120,7 +159,7 @@ if (isset($_GET['act'])) {
                 } else {
                     $status = 0; // chưa nhập địa chỉ, thành phố, phone
                 }
-                echo json_encode($status);
+                echo json_encode(count($images));
             }
             break;
         case 'getAllProvince':

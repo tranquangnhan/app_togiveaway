@@ -101,3 +101,7 @@ button.button_remove_image {
   cursor: pointer;
   display: inline-block;
 }
+
+.nv-file-over {
+  background-color: red;
+}

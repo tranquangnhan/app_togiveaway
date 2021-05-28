@@ -1,12 +1,10 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DatablogsService {
-
+export class CommentService {
 
   apiUrl = 'http://localhost/app_togiveaway/api/?act=';
   public currentUserValue;
@@ -20,16 +18,12 @@ export class DatablogsService {
       'Content-Type':  'application/json'
     })
   };
-  
-  loginUser(data) {
-    return this.http.post(this.apiUrl + 'loginUser',{ "data": data }, this.httpOptions);
+
+  getCommentByIdBlog(id) {
+    return this.http.post(this.apiUrl + 'getAllCommentByIdBlog', { 'id': id }, this.httpOptions);
   }
 
-  addnewblog(data) {
-    return this.http.post(this.apiUrl + 'addNewBlog',{ "data": data }, this.httpOptions);
-  }
-
-  getAllBlogs() {
-    return this.http.get(this.apiUrl + 'home', this.httpOptions);
+  getRepCommentByIdComment(id) {
+    return this.http.post(this.apiUrl + 'getRepCommentByIdComment', { 'id': id }, this.httpOptions);
   }
 }
