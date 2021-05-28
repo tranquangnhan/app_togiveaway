@@ -1,573 +1,242 @@
 <div class="div_dang_bai w-100">
-    <div class="mid-right form-dang-bai w-100">
-        <form action="" method="post" class="form_search">
-            <div class="div_texa">
-                <textarea name="" id="contentBlog" class="w-100" rows="1" placeholder="Bạn muốn đăng gì?"></textarea>
-            </div>
-            <div *ngIf="previewImages" class="box_preview_images mt-3">
-                <div *ngFor="let url of urlsImage" class="d-inline-block div_image  position-relative">
-                    <img src="{{url.dataURL}}" alt="{{url.id}}" class="img-fluid img-review mr-12px" (click)="detailImage($event)">
-                    <button class="button_remove_image" (click)="removeImage(url.id)"><i class="fa fa-times"
+  <div class="mid-right form-dang-bai w-100">
+    <form action="" method="post" class="form_search">
+      <div class="div_texa">
+        <textarea name="" id="contentBlog" class="w-100" rows="1" placeholder="Bạn muốn đăng gì?"></textarea>
+      </div>
+      <div *ngIf="previewImages" class="box_preview_images mt-3">
+        <div *ngFor="let url of urlsImage" class="d-inline-block div_image  position-relative">
+          <img src="{{url.dataURL}}" alt="{{url.id}}" class="img-fluid img-review mr-12px"
+            (click)="detailImage($event)">
+          <button class="button_remove_image" (click)="removeImage(url.id)"><i class="fa fa-times"
               aria-hidden="true"></i></button>
-                </div>
+        </div>
 
-                <div class="button_themanh">
-                    <label for="files" class="cursor-point">+</label>
-                </div>
+        <div class="button_themanh">
+          <label for="files" class="cursor-point">+</label>
+        </div>
+      </div>
+      <div class="control w-100 mt-3">
+        <div class="row w-100 mx-auto">
+          <div class="col-8 p-0">
+            <div class="row">
+              <img src="../../assets/images/picture.png" alt="" class="w_70px">
+              <div class="p-0 d-flex align-items-center fz-11pt w-110px">
+                <label for="files" class="cursor-point">Images / Videos</label>
+                <input id="files" (change)="addImage($event);" style="visibility:hidden;" class="d-none" type="file"
+                  multiple>
+              </div>
             </div>
-            <div class="control w-100 mt-3">
-                <div class="row w-100 mx-auto">
-                    <div class="col-8 p-0">
-                        <div class="row">
-                            <img src="../../assets/images/picture.png" alt="" class="w_70px">
-                            <div class="p-0 d-flex align-items-center fz-11pt w-110px">
-                                <label for="files" class="cursor-point">Images / Videos</label>
-                                <input id="files" (change)="addImage($event);" style="visibility:hidden;" class="d-none" type="file" multiple>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-4 p-0 d-flex align-items-center">
-                        <div class="right w-100">
-                            <button type="button" class="float-end" id="btn_chiase" (click)="checkAddNewBlog();">Chia sẻ</button>
-                        </div>
-                    </div>
-                </div>
+          </div>
+          <div class="col-4 p-0 d-flex align-items-center">
+            <div class="right w-100">
+              <button type="button" class="float-end" id="btn_chiase" (click)="checkAddNewBlog();">Chia sẻ</button>
             </div>
-        </form>
-    </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>
-<!-- <div class="div_bai_viet mt-4 w-100">
+
+<div class="div_bai_viet mt-4 w-100" *ngFor="let blog of dataBlog">
   <div class="div_info d-flex align-items-center w-100">
     <div class="left d-inline-block d-flex align-items-center align-self-start">
       <div class="div_img d-inline-block mr-13px">
-        <img src="../../assets/images/profile 2.png" class="img_avt" alt="">
+        <img src="{{ blog.data_user?.image }}" class="img_avt" alt="">
       </div>
-      <div class="div_info_us d-inline-block">
-        <h3 class="cl-level-4 capdo">Phương Hoàng Diệu</h3>
-        <h6 class="m-0">7:10:50 PM - 22/4/2021</h6>
+      <div class="div_info_us d-inline-block ">
+        <h3>{{ blog.data_user?.name }}</h3>
+        <h6 class="m-0">{{ blog.date_create }}</h6>
       </div>
     </div>
     <div class="right d-inline-block d-flex justify-content-end">
       <img src="../../assets/images/menu.png" class="img-fluid" alt="">
     </div>
   </div>
-  <div class="div_noidung mt-2">
-    <h5>Explore the new Huracán STO through videos, <b>STO through videos</b> , car renderings and much more to
-      enjoy every single detail of the latest Lamborghini V10 creation.</h5>
-    <div class="div_images position-relative">
-      <button class="button_slide btnleft" (click)="nextImages('1');"><i class="fa fa-angle-right"
-          aria-hidden="true"></i>
-      </button>
-      <button class="button_slide btnright" (click)="prevImages('1');"><i class="fa fa-angle-left"
-          aria-hidden="true"></i>
-      </button>
-      <div class="slides d-flex" id-blog="1">
-        <div class="slider d-flex">
-          <img src="./assets/images/cho-nhat-tao-543852.jpg" alt="" class="img-fluid images border-radius-images">
-        </div>
-        <div class="slider d-flex">
-          <img src="./assets/images/cho-nhat-tao-543852.jpg" alt="" class="img-fluid images border-radius-images">
-        </div>
-        <div class="slider d-flex">
-          <img src="./assets/images/cho-nhat-tao-543852.jpg" alt="" class="img-fluid images border-radius-images">
-        </div>
-      </div>
+  <div class="div_noidung mt-3">
+    <h5>{{ blog.content }}</h5>
+    <div class="div_images w-100" *ngIf="blog.rrImage.length == 0 else arrayImages">
+      <img *ngFor="let item of blog.rrImage" src="{{ urlImage }}{{ item}}" alt=""
+        class="img-fluid images border-radius-images">
     </div>
-  </div>
-  <div class="div_dieukhien w-100 mt-3">
-    <img src="../../assets/images/heart-shape-outline-with-lining-at-right-edge.png" alt=""
-      class="img-fluid btn-heart d-inline-block"> <span>56</span>
-    <img src="../../assets/images/comment.png" alt="" class="img-fluid btn-heart d-inline-block">
-    <span>5</span>
-    <img src="../../assets/images/share.png" alt="" class="img-fluid btn-heart d-inline-block">
-    <span>1</span>
-  </div>
-  <div class="div_hien_binh_luan w-100 text-center h-42px" (click)="showbinhluan('comment-blog-id', '1')">
-    <p class="m-0">Hiển thị bình luận</p>
-    <img src="../../assets/images/download.png" alt="" class="img-fluid">
-  </div>
-  <div class="father_div_binh_luan w-100" comment-blog-id="1">
-    <div class="binhluan w-100">
-      <div class="info_us w-100">
-        <div class="user mt-4 w-100 d-flex align-items-center">
-          <div class="mr-13px d-flex align-self-start">
-            <img src="../../assets/images/profile 2.png" class="w_45px" alt="">
-          </div>
-          <div class="w-100">
-            <h3 class="ten mb-1 cl-level-2 capdo">Phương Hoàng Diệu</h3>
-            <h6 class="mb-0">7:10:50 PM - 22/4/2021</h6>
-            <div class="div_content_comment mt-2 w-100">
-              <p class="mb-1 fz-14px">
-                Explore the new Huracán STO through videos, car renderings and much more to enjoy every single
-                detail of the latest <b> Lamborghini V10 creation</b> Explore the new Huracán STO through
-                videos....
-                <br> Explore the new Huracán STO through videos.
-              </p>
-            </div>
-            <div class="control_inComment w-100">
-              <div class="btn_rep cl-main" (click)="showFromTraloi('1', '1')">Xem trả lời (2)</div>
-              <div class="btn_like cl-main">Thích (24)</div>
-            </div>
-            <div class="father_div_binh_luan div_binhluan_tra_loi w-100" idBlog-fromtraloi="1" stt-reply="1">
-              <div class="div_binh_luan w-100">
-                <div class="binhluan w-100">
-                  <div class="info_us w-100">
-                    <div class="user mt-3 w-100 d-flex align-items-center">
-                      <div class="mr-13px d-flex align-self-start">
-                        <img src="../../assets/images/profile 2.png" class="w_45px" alt="">
-                      </div>
-                      <div class="w-100">
-                        <h3 class="ten mb-1 cl-level-3 capdo">Hoàng Long</h3>
-                        <h6 class="mb-0">7:10:50 PM - 22/4/2021</h6>
-                        <div class="div_content_comment mt-2 w-100">
-                          <p class="mb-1 fz-14px">
-                            Detail of the latest <b> Lamborghini V10 creation</b> Explore the new Huracán STO
-                            through videos....
-                            <br> Explore the new Huracán STO through videos.
-                          </p>
-                        </div>
-                        <div class="control_inComment">
-                          <div class="btn_rep cl-main">Trả lời</div>
-                          <div class="btn_like cl-main">Thích (7)</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="div_binh_luan w-100">
-                <div class="binhluan w-100">
-                  <div class="info_us w-100">
-                    <div class="user mt-3 w-100 d-flex align-items-center">
-                      <div class="mr-13px d-flex align-self-start">
-                        <img src="../../assets/images/profile 2.png" class="w_45px" alt="">
-                      </div>
-                      <div class="w-100">
-                        <h3 class="ten mb-1 cl-level-3 capdo">Trần Thanh Tâm</h3>
-                        <h6 class="mb-0">7:10:50 PM - 22/4/2021</h6>
-                        <div class="div_content_comment mt-2 w-100">
-                          <p class="mb-1">
-                            Of the latest?
-                          </p>
-                        </div>
-                        <div class="control_inComment">
-                          <div class="btn_rep cl-main">Trả lời</div>
-                          <div class="btn_like">Thích</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="form_them_binhluan w-97">
-                <form action="" method="post">
-                  <div class="div_them_binhluan w-100">
-                    <textarea name="" id="" class="w-100" placeholder="Bạn ..." rows="1"></textarea>
 
-                    <button type="submit"><img src="../../assets/images/send-button.png" alt=""
-                        class="img-fluid w-80"></button>
-                  </div>
-                </form>
-              </div>
-            </div>
+    <ng-template #arrayImages>
+      <div class="div_images position-relative">
+        <button class="button_slide btnleft" (click)="nextImages(blog.id);"><i class="fa fa-angle-right"
+            aria-hidden="true"></i></button>
+        <button class="button_slide btnright" (click)="prevImages(blog.id);"><i class="fa fa-angle-left"
+            aria-hidden="true"></i></button>
+        <div class="slides d-flex" [attr.id-blog]="blog.id">
+          <div class="slider d-flex" *ngFor="let imagesBlog of blog.rrImage">
+            <img src="{{ urlImage }}{{ imagesBlog }}" alt="" class="img-fluid images border-radius-images">
           </div>
         </div>
       </div>
+    </ng-template>
+    <div class="div_dieukhien w-100 mt-3">
+      <img src="../../assets/images/heart-shape-outline-with-lining-at-right-edge.png" alt=""
+        class="img-fluid btn-heart d-inline-block"> <span>56</span>
+      <img src="../../assets/images/comment.png" alt="" class="img-fluid btn-heart d-inline-block">
+      <img src="../../assets/images/share.png" alt="" class="img-fluid btn-heart d-inline-block">
+      <span>1</span>
     </div>
-    <div class="binhluan w-100">
-      <div class="info_us w-100">
-        <div class="user mt-4 w-100 d-flex align-items-center">
-          <div class="mr-13px d-flex align-self-start">
-            <img src="../../assets/images/profile 2.png" class="w_45px" alt="">
-          </div>
-          <div class="w-100">
-            <h3 class="ten mb-1 cl-level-2 capdo">Phương Hoàng Diệu</h3>
-            <h6 class="mb-0">7:10:50 PM - 22/4/2021</h6>
-            <div class="div_content_comment mt-2 w-100">
-              <p class="mb-1 fz-14px">
-                Explore the new Huracán STO through videos, car renderings and much more to enjoy every single
-                detail of the latest <b> Lamborghini V10 creation</b> Explore the new Huracán STO through
-                videos....
-                <br> Explore the new Huracán STO through videos.
-              </p>
-            </div>
-            <div class="control_inComment w-100">
-              <div class="btn_rep cl-main" (click)="showFromTraloi('1', '2')">Xem trả lời (2)</div>
-              <div class="btn_like cl-main">Thích (24)</div>
-            </div>
-            <div class="father_div_binh_luan div_binhluan_tra_loi w-100" idBlog-fromtraloi="1" stt-reply="2">
-              <div class="div_binh_luan w-100">
-                <div class="binhluan w-100">
-                  <div class="info_us w-100">
-                    <div class="user mt-3 w-100 d-flex align-items-center">
-                      <div class="mr-13px d-flex align-self-start">
-                        <img src="../../assets/images/profile 2.png" class="w_45px" alt="">
-                      </div>
-                      <div class="w-100">
-                        <h3 class="ten mb-1 cl-level-3 capdo">Hoàng Long</h3>
-                        <h6 class="mb-0">7:10:50 PM - 22/4/2021</h6>
-                        <div class="div_content_comment mt-2 w-100">
-                          <p class="mb-1 fz-14px">
-                            Detail of the latest <b> Lamborghini V10 creation</b> Explore the new Huracán STO
-                            through videos....
-                            <br> Explore the new Huracán STO through videos.
-                          </p>
-                        </div>
-                        <div class="control_inComment">
-                          <div class="btn_rep cl-main">Trả lời</div>
-                          <div class="btn_like cl-main">Thích (7)</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="div_binh_luan w-100">
-                <div class="binhluan w-100">
-                  <div class="info_us w-100">
-                    <div class="user mt-3 w-100 d-flex align-items-center">
-                      <div class="mr-13px d-flex align-self-start">
-                        <img src="../../assets/images/profile 2.png" class="w_45px" alt="">
-                      </div>
-                      <div class="w-100">
-                        <h3 class="ten mb-1 cl-level-3 capdo">Trần Thanh Tâm</h3>
-                        <h6 class="mb-0">7:10:50 PM - 22/4/2021</h6>
-                        <div class="div_content_comment mt-2 w-100">
-                          <p class="mb-1">
-                            Of the latest?
-                          </p>
-                        </div>
-                        <div class="control_inComment">
-                          <div class="btn_rep cl-main">Trả lời</div>
-                          <div class="btn_like">Thích</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="form_them_binhluan w-97">
-                <form action="" method="post">
-                  <div class="div_them_binhluan w-100">
-                    <textarea name="" id="" class="w-100" placeholder="Bạn ..." rows="1"></textarea>
-
-                    <button type="submit"><img src="../../assets/images/send-button.png" alt=""
-                        class="img-fluid w-80"></button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="div_hien_binh_luan w-100 text-center h-42px" (click)="showbinhluan('comment-blog-id', blog.id);">
+      <p class="m-0">Hiển thị bình luận</p>
+      <img src="../../assets/images/download.png" alt="" class="img-fluid">
     </div>
-  </div>
-  <div class="form_them_binhluan w-100">
-    <form action="" method="post">
-      <div class="div_them_binhluan w-100">
-        <textarea name="" id="" class="w-100" placeholder="Bình luận ..." rows="1"></textarea>
-        <button type="button" class="meme"><img src="../../assets/images/greetings.png" alt=""
-                            class="img-fluid meme"></button>
-                    <button type="button" class="picture"><img src="../../assets/images/picture.png" alt=""
-                            class="img-fluid picture"></button> -->
-<!-- <button type="submit"><img src="../../assets/images/send-button.png" alt="" class="img-fluid w-80"></button>
-      </div>
-    </form>
-  </div>
-</div> -->
-
-<div class="div_bai_viet mt-4 w-100" *ngFor="let blog of dataBlog">
-    <div class="div_info d-flex align-items-center w-100">
-        <div class="left d-inline-block d-flex align-items-center align-self-start">
-            <div class="div_img d-inline-block mr-13px">
-                <img src="" class="img_avt" alt="">
+    <div class="father_div_binh_luan w-100" [attr.comment-blog-id]="blog.id">
+      <div class="binhluan w-100" *ngFor="let comment of blog.data_comment; let i = index">
+        <div class="info_us w-100">
+          <div class="user mt-4 w-100 d-flex align-items-center">
+            <div class="mr-13px d-flex align-self-start">
+              <img src="{{ comment.data_user?.image }}" class="w_45px" alt="">
             </div>
-            <div class="div_info_us d-inline-block ">
-                <h3>{{ blog.data_user?.name }}</h3>
-                <ng-template #nameFalse>
-                    <h3>...</h3>
+            <div class="w-100">
+              <h3 class="ten mb-1 capdo">{{ comment.data_user?.name }}</h3>
+              <h6 class="mb-0">{{ comment.date_create }}</h6>
+              <div class="div_content_comment mt-2 w-100">
+                <p class="mb-1 fz-14px">
+                  {{ comment.content }}
+                </p>
+              </div>
+              <div class="control_inComment w-100">
+                <div class="btn_rep cl-main" *ngIf="comment.data_rep?.length > 0; else khongcoaitraloi" (click)="showFromTraloi(blog.id, i)">Xem trả lời ({{ comment.data_rep.length }})</div>
+
+                <ng-template #khongcoaitraloi>
+                  <div class="btn_rep cl-main" (click)="showFromTraloi(blog.id, i)">Trả lời</div>
                 </ng-template>
 
-                <h6 class="m-0">{{ blog.date_create }}</h6>
-                <!-- 7:10:50 PM - 22/4/2021 -->
-            </div>
-        </div>
-        <div class="right d-inline-block d-flex justify-content-end">
-            <img src="../../assets/images/menu.png" class="img-fluid" alt="">
-        </div>
-    </div>
-    <div class="div_noidung mt-3">
-        <h5>{{ blog.content }}</h5>
-        <div class="div_images w-100" *ngIf="blog.images.length > 0 else arrayImages">
-            <img *ngFor="let item of blog.rrImage" src="{{ urlImage }}{{ item}}" alt="" class="img-fluid images border-radius-images">
-        </div>
-
-        <ng-template #arrayImages>
-            <div class="div_images position-relative">
-                <button class="button_slide btnleft" (click)="nextImages(blog.id);"><i class="fa fa-angle-right"
-            aria-hidden="true"></i>
-        </button>
-                <button class="button_slide btnright" (click)="prevImages(blog.id);"><i class="fa fa-angle-left"
-            aria-hidden="true"></i>
-        </button>
-                <div class="slides d-flex" [attr.id-blog]="blog.id">
-                    <div class="slider d-flex" *ngFor="let imagesBlog of blog.images">
-                        <img src="{{ urlImage }}{{ imagesBlog }}" alt="" class="img-fluid images border-radius-images">
-                    </div>
-                    <!-- <div class="slider d-flex">
-            <img src="./assets/images/cho-nhat-tao-543852.jpg" alt="" class="img-fluid images border-radius-images">
-          </div>
-          <div class="slider d-flex">
-            <img src="./assets/images/cho-nhat-tao-543852.jpg" alt="" class="img-fluid images border-radius-images">
-          </div> -->
-                </div>
-            </div>
-        </ng-template>
-        <div class="div_dieukhien w-100 mt-3">
-            <img src="../../assets/images/heart-shape-outline-with-lining-at-right-edge.png" alt="" class="img-fluid btn-heart d-inline-block"> <span>56</span>
-            <img src="../../assets/images/comment.png" alt="" class="img-fluid btn-heart d-inline-block">
-            <img src="../../assets/images/share.png" alt="" class="img-fluid btn-heart d-inline-block">
-            <span>1</span>
-        </div>
-        <div class="div_hien_binh_luan w-100 text-center h-42px" (click)="showbinhluan('comment-blog-id', blog.id);">
-            <p class="m-0">Hiển thị bình luận</p>
-            <img src="../../assets/images/download.png" alt="" class="img-fluid">
-        </div>
-        <div class="father_div_binh_luan w-100" [attr.comment-blog-id]="blog.id">
-            <div class="binhluan w-100" *ngFor="let comment of blog.data_comment">
-                <div class="info_us w-100">
-                    <div class="user mt-4 w-100 d-flex align-items-center">
+                <div class="btn_like cl-main">Thích (24)</div>
+              </div>
+              <div class="father_div_binh_luan div_binhluan_tra_loi w-100" [attr.idBlog-fromtraloi]="blog.id"
+                [attr.stt-reply]="i">
+                <div class="div_binh_luan w-100" *ngFor="let repComment of comment.data_rep">
+                  <div class="binhluan w-100">
+                    <div class="info_us w-100">
+                      <div class="user mt-3 w-100 d-flex align-items-center">
                         <div class="mr-13px d-flex align-self-start">
-                            <img src="" class="w_45px" alt="">
+                          <img src="../../assets/images/profile 2.png" class="w_45px" alt="">
                         </div>
                         <div class="w-100">
-                            <h3 class="ten mb-1 capdo">Name name</h3>
-                            <h6 class="mb-0">7:10:50 PM - 22/4/2021</h6>
-                            <div class="div_content_comment mt-2 w-100">
-                                <p class="mb-1 fz-14px">
-                                    {{ comment.content }}
-                                </p>
-                            </div>
-                            <div class="control_inComment w-100">
-                                <div class="btn_rep cl-main" (click)="showFromTraloi('2', '1')">Xem trả lời (2)</div>
-                                <div class="btn_like cl-main">Thích (24)</div>
-                            </div>
-                            <div class="father_div_binh_luan div_binhluan_tra_loi w-100" idBlog-fromtraloi="2" stt-reply="1">
-                                <div class="div_binh_luan w-100">
-                                    <div class="binhluan w-100">
-                                        <div class="info_us w-100">
-                                            <div class="user mt-3 w-100 d-flex align-items-center">
-                                                <div class="mr-13px d-flex align-self-start">
-                                                    <img src="../../assets/images/profile 2.png" class="w_45px" alt="">
-                                                </div>
-                                                <div class="w-100">
-                                                    <h3 class="ten mb-1 cl-level-3 capdo">Hoàng Long</h3>
-                                                    <h6 class="mb-0">7:10:50 PM - 22/4/2021</h6>
-                                                    <div class="div_content_comment mt-2 w-100">
-                                                        <p class="mb-1 fz-14px">
-                                                            Detail of the latest <b> Lamborghini V10 creation</b> Explore the new Huracán STO through videos....
-                                                            <br> Explore the new Huracán STO through videos.
-                                                        </p>
-                                                    </div>
-                                                    <div class="control_inComment">
-                                                        <div class="btn_rep cl-main">Trả lời</div>
-                                                        <div class="btn_like cl-main">Thích (7)</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="div_binh_luan w-100">
-                                    <div class="binhluan w-100">
-                                        <div class="info_us w-100">
-                                            <div class="user mt-3 w-100 d-flex align-items-center">
-                                                <div class="mr-13px d-flex align-self-start">
-                                                    <img src="../../assets/images/profile 2.png" class="w_45px" alt="">
-                                                </div>
-                                                <div class="w-100">
-                                                    <h3 class="ten mb-1 cl-level-3 capdo">Trần Thanh Tâm</h3>
-                                                    <h6 class="mb-0">7:10:50 PM - 22/4/2021</h6>
-                                                    <div class="div_content_comment mt-2 w-100">
-                                                        <p class="mb-1">
-                                                            Of the latest?
-                                                        </p>
-                                                    </div>
-                                                    <div class="control_inComment">
-                                                        <div class="btn_rep cl-main">Trả lời</div>
-                                                        <div class="btn_like">Thích</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form_them_binhluan w-97">
-                                    <form action="" method="post">
-                                        <div class="div_them_binhluan w-100">
-                                            <textarea name="" id="" class="w-100" placeholder="Bạn ..." rows="1"></textarea>
-
-                                            <button type="submit"><img src="../../assets/images/send-button.png" alt=""
-                        class="img-fluid w-80"></button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
+                          <h3 class="ten mb-1 cl-level-3 capdo">{{ repComment.data_user?.name }}</h3>
+                          <h6 class="mb-0">{{ repComment.date_create }}</h6>
+                          <div class="div_content_comment mt-2 w-100">
+                            <p class="mb-1 fz-14px">
+                              {{ repComment.content }}
+                            </p>
+                          </div>
+                          <div class="control_inComment">
+                            <div class="btn_rep cl-main">Trả lời</div>
+                            <div class="btn_like cl-main">Thích (7)</div>
+                          </div>
                         </div>
+                      </div>
                     </div>
-                </div>
-            </div>
-            <!-- <div class="binhluan w-100">
-      <div class="info_us w-100">
-        <div class="user mt-4 w-100 d-flex align-items-center">
-          <div class="mr-13px d-flex align-self-start">
-            <img src="../../assets/images/profile 2.png" class="w_45px" alt="">
-          </div>
-          <div class="w-100">
-            <h3 class="ten mb-1">Phương Hoàng Diệu</h3>
-            <h6 class="mb-0">7:10:50 PM - 22/4/2021</h6>
-            <div class="div_content_comment mt-2 w-100">
-              <p class="mb-1 fz-14px">
-                Explore the new Huracán Explore the new Huracán STO through videos STO through videos, car
-                renderings and much more to enjoy every single detail of the latest <b> Lamborghini V10
-                  creation</b>.
-              </p>
-            </div>
-            <div class="control_inComment w-100">
-              <div class="btn_rep cl-main" (click)="showFromTraloi('2', '2')">Trả lời</div>
-              <div class="btn_like">Thích</div>
-            </div>
-            <div class="father_div_binh_luan div_binhluan_tra_loi w-100" idBlog-fromtraloi="2" stt-reply="2">
-              <div class="form_them_binhluan w-97">
-                <form action="" method="post">
-                  <div class="div_them_binhluan w-100">
-                    <textarea name="" id="" class="w-100" placeholder="Bạn ..." rows="1"></textarea>
-
-                    <button type="submit"><img src="../../assets/images/send-button.png" alt=""
-                        class="img-fluid w-80"></button>
                   </div>
-                </form>
+                </div>
+                <div class="form_them_binhluan w-97">
+                  <form action="" method="post">
+                    <div class="div_them_binhluan w-100">
+                      <textarea name="" id="" class="w-100" placeholder="Bạn ..." rows="1"></textarea>
+                      <button type="submit"><img src="../../assets/images/send-button.png" alt=""
+                          class="img-fluid w-80"></button>
+                    </div>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="binhluan w-100">
-      <div class="info_us w-100">
-        <div class="user mt-4 w-100 d-flex align-items-center ">
-          <div class="mr-13px d-flex align-self-start">
-            <img src="../../assets/images/profile 2.png" class="w_45px" alt="">
-          </div>
-          <div class="w-100">
-            <h3 class="ten mb-1 cl-level-4 capdo">Phương Hoàng Diệu</h3>
-            <h6 class="mb-0">7:10:50 PM - 22/4/2021</h6>
-            <div class="div_content_comment mt-2 w-100">
-              <p class="mb-1 fz-14px">
-                Explore the new Huracán STO through videos, car renderings and much more to enjoy every single
-                detail of the latest <b> Lamborghini V10 creation</b>.
-              </p>
-            </div>
-            <div class="control_inComment w-100">
-              <div class="btn_rep cl-main" (click)="showFromTraloi('2', '3')">Trả lời</div>
-              <div class="btn_like cl-main">Thích (2)</div>
-            </div>
-            <div class="father_div_binh_luan div_binhluan_tra_loi w-100" idBlog-fromtraloi="2" stt-reply="3">
-              <div class="form_them_binhluan w-97">
-                <form action="" method="post">
-                  <div class="div_them_binhluan w-100">
-                    <textarea name="" id="" class="w-100" placeholder="Bạn ..." rows="1"></textarea>
+    <div class="form_them_binhluan w-100">
+      <form action="" method="post">
+        <div class="div_them_binhluan w-100">
+          <textarea name="" id="" class="w-100" placeholder="Bình luận ..." rows="1"></textarea>
+          <button type="submit"><img src="../../assets/images/send-button.png" alt="" class="img-fluid w-80"></button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 
-                    <button type="submit"><img src="../../assets/images/send-button.png" alt=""
-                        class="img-fluid w-80"></button>
-                  </div>
-                </form>
+
+
+
+
+
+
+  <!----------------------- modal ------------------------------>
+
+  <button type="button" id="showFormNewMember_button" class="btn btn-primary d-none" data-bs-toggle="modal"
+    data-bs-target="#showFormNewMember"></button>
+  <div class="modal fade motal_newmember" id="showFormNewMember" data-bs-backdrop="static" data-bs-keyboard="false"
+    tabindex="-1" aria-labelledby="showFormNewMemberLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content top-70px">
+        <div class="modal-body body_modal_newmember">
+          <img src="./assets/images/user clmain.png" class="img_motal_newmember" alt="">
+          <form (ngSubmit)="subNhapLanDau()">
+            <div class="mb-3">
+              <label class="form-label">Số điện thoại</label>
+              <input type="text" class="form-control useFontAwesomeFamily ip_modal_newmember" minlength="9"
+                maxlength="13" pattern="^[0][0-9]*" id="sodienthoai" placeholder="&#xf095;" [(ngModel)]='sodienthoai'
+                required name="phone" #phone='ngModel' ngModel>
+              <div *ngIf="phone.errors && (phone.dirty || phone.touched) ">
+                <div [hidden]="!phone.errors.pattern">
+                  <div id="" class="form-text">Số phải bắt đầu là 0</div>
+                </div>
+                <div [hidden]="!phone.errors.required">
+                  <div id="" class="form-text">Vui lòng nhập số điện thoại.</div>
+                </div>
               </div>
             </div>
-          </div>
+            <div class="mb-3">
+              <label for="" class="form-label">Địa chỉ</label>
+              <input type="text" class="form-control ip_modal_newmember useFontAwesomeFamily" id="diachi"
+                placeholder="&#xf041;" [(ngModel)]='diachi' required name="addr" #addr='ngModel' ngModel>
+              <div *ngIf="addr.errors && (addr.dirty || addr.touched) ">
+                <div [hidden]="!addr.errors.required">
+                  <div id="" class="form-text">Vui lòng nhập địa chỉ.</div>
+                </div>
+              </div>
+            </div>
+            <div class="mb-4">
+              <label for="" class="form-label">Thành Phố</label>
+              <select name="" class="ip_modal_newmember w-100 form-control select_thanhpho" id="thanhpho">
+                <option *ngFor="let province of allProvinces" value="{{ province.id }}">{{ province.id }} - {{
+                  province.name }}</option>
+              </select>
+              <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+            </div>
+            <div class="w-100 text-center">
+              <button type="submit" class="btn xacnhan_modal_newmember mx-auto">Xác nhận</button>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer footer_newmember">
+          <h6 class="modal-title" id="showFormNewMemberLabel">Nhập thông tin của bạn (Chỉ nhập một lần)</h6>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
       </div>
-    </div> -->
-        </div>
-        <div class="form_them_binhluan w-100">
-            <form action="" method="post">
-                <div class="div_them_binhluan w-100">
-                    <textarea name="" id="" class="w-100" placeholder="Bình luận ..." rows="1"></textarea>
-                    <button type="submit"><img src="../../assets/images/send-button.png" alt="" class="img-fluid w-80"></button>
-                </div>
-            </form>
-        </div>
     </div>
+  </div>
 
-
-
-
-
-
-
-    <!----------------------- modal ------------------------------>
-
-    <button type="button" id="showFormNewMember_button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#showFormNewMember"></button>
-    <div class="modal fade motal_newmember" id="showFormNewMember" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="showFormNewMemberLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content top-70px">
-                <div class="modal-body body_modal_newmember">
-                    <img src="./assets/images/user clmain.png" class="img_motal_newmember" alt="">
-                    <form (ngSubmit)="subNhapLanDau()">
-                        <div class="mb-3">
-                            <label class="form-label">Số điện thoại</label>
-                            <input type="text" class="form-control useFontAwesomeFamily ip_modal_newmember" minlength="9" maxlength="13" pattern="^[0][0-9]*" id="sodienthoai" placeholder="&#xf095;" [(ngModel)]='sodienthoai' required name="phone" #phone='ngModel' ngModel>
-                            <div *ngIf="phone.errors && (phone.dirty || phone.touched) ">
-                                <div [hidden]="!phone.errors.pattern">
-                                    <div id="" class="form-text">Số phải bắt đầu là 0</div>
-                                </div>
-                                <div [hidden]="!phone.errors.required">
-                                    <div id="" class="form-text">Vui lòng nhập số điện thoại.</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="" class="form-label">Địa chỉ</label>
-                            <input type="text" class="form-control ip_modal_newmember useFontAwesomeFamily" id="diachi" placeholder="&#xf041;" [(ngModel)]='diachi' required name="addr" #addr='ngModel' ngModel>
-                            <div *ngIf="addr.errors && (addr.dirty || addr.touched) ">
-                                <div [hidden]="!addr.errors.required">
-                                    <div id="" class="form-text">Vui lòng nhập địa chỉ.</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-4">
-                            <label for="" class="form-label">Thành Phố</label>
-                            <select name="" class="ip_modal_newmember w-100 form-control select_thanhpho" id="thanhpho">
-              <option *ngFor="let province of allProvinces" value="{{ province.id }}">{{ province.id }} - {{
-                province.name }}</option>
-            </select>
-                            <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                        </div>
-                        <div class="w-100 text-center">
-                            <button type="submit" class="btn xacnhan_modal_newmember mx-auto">Xác nhận</button>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer footer_newmember">
-                    <h6 class="modal-title" id="showFormNewMemberLabel">Nhập thông tin của bạn (Chỉ nhập một lần)</h6>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-            </div>
+  <button type="button" id="imageDetail_button" class="btn btn-primary d-none" data-bs-toggle="modal"
+    data-bs-target="#imageDetail">
+  </button>
+  <div class="modal fade motal_newmember" id="imageDetail" data-bs-backdrop="static" data-bs-keyboard="false"
+    tabindex="-1" aria-labelledby="showFormNewMemberLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg mt-5">
+      <div class="modal-content detail_img_content">
+        <div class="modal-body box_img_detail text-center">
+          <!-- <img src="./assets/images/cho-nhat-tao-543852.jpg" class="img-fluid" alt=""> -->
         </div>
-    </div>
-
-    <button type="button" id="imageDetail_button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#imageDetail">
-</button>
-    <div class="modal fade motal_newmember" id="imageDetail" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="showFormNewMemberLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg mt-5">
-            <div class="modal-content detail_img_content">
-                <div class="modal-body box_img_detail text-center">
-                    <!-- <img src="./assets/images/cho-nhat-tao-543852.jpg" class="img-fluid" alt=""> -->
-                </div>
-                <div class="ctrol">
-                    <button type="button" class="button_close_modal" data-bs-dismiss="modal" aria-label="Close"><i
-            class="fa fa-times" aria-hidden="true"></i></button>
-                </div>
-            </div>
+        <div class="ctrol">
+          <button type="button" class="button_close_modal" data-bs-dismiss="modal" aria-label="Close"><i
+              class="fa fa-times" aria-hidden="true"></i></button>
         </div>
+      </div>
     </div>
+  </div>

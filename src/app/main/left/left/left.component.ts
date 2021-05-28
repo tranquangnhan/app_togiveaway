@@ -35,15 +35,7 @@ export class LeftComponent implements OnInit {
 
   public urlImage = 'http://localhost/app_togiveaway/api/upload/';
   public URL = 'http://localhost/app_togiveaway/api/upload';
-  public uploader: FileUploader = new FileUploader({
-    url: this.URL,
-    maxFileSize: 15* 1024 * 1024,
-    // allowedFileType: ['png', 'jpg']
-  });
 
-  public hasBaseDropZoneOver = true;
-  public uploadedFile = []
-  public selectedFile: File;
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
@@ -75,12 +67,23 @@ export class LeftComponent implements OnInit {
               if (response != '') {
                 for (let key in response) {
                   let idComment = response[key]['id'];
+
+                  let time = this.getDateTimeByTimestamp(response[key]['date_create']);
+                  response[key]['date_create'] = time;
+
                   this.getAndPushDataUserById(response[key]['id_user'], response[key]);
 
                   this.CommentService.getRepCommentByIdComment(idComment).subscribe(
                     res => {
                       if (res != '') {
+                        for (let key in res) {
+                          let time = this.getDateTimeByTimestamp(res[key]['date_create']);
+                          res[key]['date_create'] = time;
+
+                          this.getAndPushDataUserById(res[key]['id_user'], res[key]);
+                        }
                         response[key]['data_rep'] = res;
+
                       }
                     }
                   )
@@ -90,7 +93,7 @@ export class LeftComponent implements OnInit {
             }
           )
         }
-      
+
 
         this.dataBlog = data;
         console.log(this.dataBlog);
@@ -108,43 +111,7 @@ export class LeftComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = JSON.parse(this.userService.getToken());
-
-    this.uploader.onAfterAddingFile = (fileItem: FileItem): any => {
-        console.log('Uploader onAfterAddingFile', fileItem);
-    };
-
-    this.uploader.onBeforeUploadItem = (fileItem: FileItem): any => {
-        console.log('Uploader onBeforeUploadItem', fileItem);
-        return { fileItem };
-    };
-
-    this.uploader.onProgressItem = (progress: any) => {
-        console.log('onProgressItem: ' + progress['propress']);
-        // this.changeDetector.detectChanges();
-    };
-
-    this.uploader.onCompleteItem = (FileItem: FileItem): any => {
-        console.log('Uploader onCompleteItem',FileItem);
-        this.uploadedFile.push({
-            name: FileItem.file.name,
-            size: FileItem.file.size
-        });
-    };
-
-    this.uploader.onCompleteAll = (): any => {
-        this.uploader.clearQueue();
-    }
   };
-
-  // public getDataUserById(idForm:string): Observable<string> {
-  //   var Subject = new Subject<string>();
-  //   this.userService.getUsById(26).subscribe( // get thong tin us
-  //     response => {
-  //       data = response;
-  //     }
-  //   );
-  //   return data.asObservable();
-  // }
 
   public getDateTimeByTimestamp(timeBlog) {
     var str;
@@ -181,14 +148,6 @@ export class LeftComponent implements OnInit {
         str = dateTime.getDate() + '/' + dateTime.getMonth() + '/' + dateTime.getFullYear();
     }
     return str;
-  }
-
-  public UploadAll() {
-      this.uploader.uploadAll();
-  }
-
-  public fileOverBase(e: any) {
-      this.hasBaseDropZoneOver = e;
   }
 
   subNhapLanDau(): void {
@@ -279,6 +238,7 @@ export class LeftComponent implements OnInit {
   }
 
   showFromTraloi(idblog, sttbinhluan) {
+    console.log(idblog, sttbinhluan);
     var div = $("[idBlog-fromtraloi=" + idblog + "][stt-reply=" + sttbinhluan + "]");
     this.moveDivBinhluan(div);
   }
