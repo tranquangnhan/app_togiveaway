@@ -26,4 +26,8 @@ export class CommentService {
   getRepCommentByIdComment(id) {
     return this.http.post(this.apiUrl + 'getRepCommentByIdComment', { 'id': id }, this.httpOptions);
   }
+
+  updateLike(data){
+    return this.http.post(this.apiUrl+'updatelike',{ 'data': data }, this.httpOptions)
+  }
 }

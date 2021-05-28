@@ -67,7 +67,15 @@ export class LeftComponent implements OnInit {
 
           let time = this.getDateTimeByTimestamp(data[i]['date_create']);
           data[i]['date_create'] = time;
+          
 
+          var checkLike = data[i]['id_users_like'].split(",");
+
+          if(checkLike.findIndex(value=>value === this.getIdUs()) !== -1){
+            data[i]['liked'] = 0;
+          }else{
+            data[i]['liked'] = 1;
+          }
           this.getAndPushDataUserById(data[i]['id_user'], data[i]);
 
           this.CommentService.getCommentByIdBlog(data[i]['id']).subscribe(
@@ -469,4 +477,19 @@ export class LeftComponent implements OnInit {
     var idUs = dataUs.id;
     return idUs;
   }
+  like(idBlog){
+  
+    var idUser = this.getIdUs();
+    var data = {
+      idBlog: idBlog,
+      idUser: idUser
+    }
+    this.CommentService.updateLike(data).subscribe(data=>{
+      if(data['statusCode'] == '2'){
+        alert(111)
+      }
+    })
+
+  }
+
 }

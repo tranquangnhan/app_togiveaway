@@ -324,7 +324,9 @@
             </div>
         </ng-template>
         <div class="div_dieukhien w-100 mt-3">
-            <img src="../../assets/images/heart-shape-outline-with-lining-at-right-edge.png" alt="" class="img-fluid btn-heart d-inline-block"> <span>56</span>
+            <img *ngIf="blog.liked == '1'" (click)="like(blog.id)" src="./assets/images/heart.svg" alt="" class="img-fluid btn-heart d-inline-block">
+            <img *ngIf="blog.liked == '0'" (click)="like(blog.id)" src="./assets/images/heart-shape-outline-with-lining-at-right-edge.png" alt="" class="img-fluid btn-heart d-inline-block">
+            <span>56</span>
             <img src="../../assets/images/comment.png" alt="" class="img-fluid btn-heart d-inline-block">
             <img src="../../assets/images/share.png" alt="" class="img-fluid btn-heart d-inline-block">
             <span>1</span>
