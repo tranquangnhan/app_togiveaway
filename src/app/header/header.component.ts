@@ -22,7 +22,6 @@ export class HeaderComponent implements OnInit {
     this.token = this.user.jwt;
     this.dataUs =  jwt_decode(this.token);
     this.us = this.dataUs.data;
-    console.log(this.us);
   }
 
   ngOnInit(): void {

@@ -90,7 +90,7 @@ export class LeftComponent implements OnInit {
             }
           )
         }
-        console.log(this.dataBlog);
+      
 
         this.dataBlog = data;
         console.log(this.dataBlog);
