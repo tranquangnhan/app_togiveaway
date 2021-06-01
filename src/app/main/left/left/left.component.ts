@@ -70,10 +70,10 @@ export class LeftComponent implements OnInit {
           data[i]['date_create'] = time;
 
 
-          var checkLike = data[i]['id_users_like'].split(",");
-          data[i]['liked_count'] = checkLike.length;
+          var checkLike = data[i]['id_users_like']?.split(",");
+          data[i]['liked_count'] = checkLike?.length;
 
-          if(checkLike.findIndex(value=>value === this.getIdUs()) !== -1){
+          if(checkLike?.findIndex(value=>value === this.getIdUs()) !== -1){
             data[i]['liked'] = 2;
           }else{
             data[i]['liked'] = 1;
@@ -380,25 +380,49 @@ export class LeftComponent implements OnInit {
       contentComment:this.contentComment,
       idUser:this.getIdUs()
     }
-    this.CommentService.postComment(data).subscribe(data=>console.log(data))
+    this.CommentService.postComment(data).subscribe(data=>{
+      console.log(data);
+      if(data['statusCode'] == 1){
+        var div = $("[comment-blog-id=" + idBlog + "]");
+        this.showComment(div);
+      }
+    })
   }
+
 
   showbinhluan(attributeName, idblog) {
     var div = $("[" + attributeName + "=" + idblog + "]");
-    this.moveDivBinhluan(div);
+    this.moveDivBinhluan(div)
   }
 
   moveDivBinhluan(div) {
     var check = div.hasClass("show-binh-luan");
     if (check == false) {
+      this.showComment(div);
+    } else {
+      this.hideComment(div);
+    }
+  }
+
+  showComment(div){
+    var check = div.hasClass("show-binh-luan");
+    if (check == false) {
       var baonhieu = "auto";
       div.addClass('show-binh-luan');
-    } else {
-      var baonhieu = "0px";
-      div.removeClass('show-binh-luan');
+      this.changeHeight(div, baonhieu);
     }
-    this.changeHeight(div, baonhieu);
   }
+
+  hideComment(div){
+    var check = div.hasClass("show-binh-luan");
+    if (check == true) {
+       var baonhieu = "0px";
+      div.removeClass('show-binh-luan');
+      this.changeHeight(div, baonhieu);
+    }
+  }
+
+
 
   changeHeight(element, baonhieu) {
     element.css({

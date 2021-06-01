@@ -52,6 +52,11 @@ class Comments extends ModelDb
       $SQL = "INSERT INTO comments(id_blog,content,id_user) VALUES(?,?,?)";
       return $this->ModelDb->exec1($SQL,$idBlog,$contentComment,$idUser);
     }
+
+    function getOneCommentByIdBlog($idBlog){
+      $SQL = "SELECT * FROM comments WHERE id_blog = ?";
+      return $this->ModelDb->result1(0,$SQL,$idBlog);
+    } 
 }
 
 ?>

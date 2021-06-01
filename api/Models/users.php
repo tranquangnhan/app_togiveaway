@@ -14,7 +14,7 @@ class Users extends  ModelDb
 
     function addUser($account_id,$name,$image,$email){
         $date_create = time();
-        $SQL ="INSERT INTO users(account_id,name,image,email,date_create) VALUE(?,?,?,?,?)";
+        $SQL ="INSERT INTO users(id,name,image,email,date_create) VALUE(?,?,?,?,?)";
         return $this->ModelDb->exec1($SQL,$account_id,$name,$image,$email,$date_create);
     }
 
@@ -24,12 +24,12 @@ class Users extends  ModelDb
     }
 
     function getThongtinNhapLanDau($id) {
-        $SQL = "SELECT id, phone, address, id_province FROM `users` WHERE id_account = $id";
+        $SQL = "SELECT id, phone, address, id_province FROM `users` WHERE id = $id";
         return $this->ModelDb->result1(1,$SQL);
     }
 
     function themThongTinLanDau($account_id, $sodienthoai, $diachi, $thanhpho) {
-      $SQL ="UPDATE `users` SET `phone` = ?, `address` = ?, `id_province` = ? WHERE `users`.`account_id` = ?";
+      $SQL ="UPDATE `users` SET `phone` = ?, `address` = ?, `id_province` = ? WHERE `users`.`id` = ?";
       return $this->ModelDb->exec1($SQL, $sodienthoai, $diachi, $thanhpho, $account_id);
     }
 

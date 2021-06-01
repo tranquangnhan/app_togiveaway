@@ -62,8 +62,6 @@ export class IndexComponent implements OnInit {
         });
 
       }
-
-
     });
   }
   loginWithGoogle(): void {

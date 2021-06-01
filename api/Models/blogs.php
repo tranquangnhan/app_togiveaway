@@ -24,7 +24,7 @@ class Blogs extends  ModelDb
     }
 
     function getThongtinNhapLanDau($id_account) {
-        $SQL = "SELECT id, phone, address, id_province FROM `users` WHERE account_id = ?";
+        $SQL = "SELECT id, phone, address, id_province FROM `users` WHERE id = ?";
         return $this->ModelDb->result1(1,$SQL, $id_account);
     }
 

@@ -120,6 +120,7 @@ if (isset($_GET['act'])) {
           $idUser = $dataJSON->data->idUser;
 
           if($comments->postComment($idBlog,$contentComment,$idUser)){
+            $array['dataComment'] = $comments->getAllCommentByIdBlog($idBlog);
             $array['statusCode'] = 1;
           }else{
             $array['statusCode'] = 0;
