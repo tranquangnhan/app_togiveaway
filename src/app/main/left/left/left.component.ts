@@ -9,6 +9,7 @@ import { FileUploader, FileItem } from 'ng2-file-upload';
 import { HttpClient } from '@angular/common/http';
 import jwt_decode from "jwt-decode";
 import { CommentService } from '../../../services/comment.service';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-left',
@@ -22,7 +23,7 @@ export class LeftComponent implements OnInit {
   public urlsImage = [];
   public allProvinces = [];
   public dataBlog = [];
-
+  
   public previewImages: boolean  = false;
   public checkclick_: boolean  = true;
   public showModal: boolean = false;
@@ -36,6 +37,9 @@ export class LeftComponent implements OnInit {
   public urlImage = 'http://localhost/app_togiveaway/api/upload/';
   public URL = 'http://localhost/app_togiveaway/api/upload';
 
+  public bienDem = 0;
+  public contentComment:string;
+
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
@@ -48,10 +52,15 @@ export class LeftComponent implements OnInit {
   ) {
     this.loadBlogs();
   }
+  
+  ngOnInit(): void {
+    this.user = JSON.parse(this.userService.getToken());
+  };
 
   loadBlogs() {
     this.datablog.getAllBlogs().subscribe(
       respon => {
+        console.log(respon)
         var data = respon['data'];
         for (let i = 0; i < data.length; i++) {
           var strImage = data[i]['images'].split(",");
@@ -61,14 +70,14 @@ export class LeftComponent implements OnInit {
           data[i]['date_create'] = time;
 
 
-          // var checkLike = data[i]['id_users_like'].split(",");
+          var checkLike = data[i]['id_users_like'].split(",");
+          data[i]['liked_count'] = checkLike.length;
 
-          // if(checkLike.findIndex(value=>value === this.getIdUs()) !== -1){
-          //   data[i]['liked'] = 0;
-          // }else{
-          //   data[i]['liked'] = 1;
-          // }
-
+          if(checkLike.findIndex(value=>value === this.getIdUs()) !== -1){
+            data[i]['liked'] = 2;
+          }else{
+            data[i]['liked'] = 1;
+          }
           this.getAndPushDataUserById(data[i]['id_user'], data[i]);
 
           this.CommentService.getCommentByIdBlog(data[i]['id']).subscribe(
@@ -118,9 +127,7 @@ export class LeftComponent implements OnInit {
     );
   }
 
-  ngOnInit(): void {
-    this.user = JSON.parse(this.userService.getToken());
-  };
+  
 
   public getDateTimeByTimestamp(timeBlog) {
     var str;
@@ -208,7 +215,7 @@ export class LeftComponent implements OnInit {
     document.getElementById("imageDetail_button").click();
   }
 
-  public bienDem = 0;
+ 
   addImage(e) {
     var dieuKienTrue = "image";
     let files = e.target.files;
@@ -367,6 +374,15 @@ export class LeftComponent implements OnInit {
     }
   }
 
+  addComment(idBlog){
+    var data = {
+      idBlog:idBlog,
+      contentComment:this.contentComment,
+      idUser:this.getIdUs()
+    }
+    this.CommentService.postComment(data).subscribe(data=>console.log(data))
+  }
+
   showbinhluan(attributeName, idblog) {
     var div = $("[" + attributeName + "=" + idblog + "]");
     this.moveDivBinhluan(div);
@@ -438,19 +454,26 @@ export class LeftComponent implements OnInit {
     var idUs = dataUs.id;
     return idUs;
   }
-  like(idBlog){
 
+  like(idBlog){
     var idUser = this.getIdUs();
+
     var data = {
       idBlog: idBlog,
       idUser: idUser
     }
+
     this.CommentService.updateLike(data).subscribe(data=>{
-      if(data['statusCode'] == '2'){
-        alert(111)
+      if(data['statusCode'] == '1'){
+        var id =  this.dataBlog.findIndex(v=>v.id == idBlog);
+        this.dataBlog[id].liked = 2;
+        this.dataBlog[id].liked_count = data['liked_count'];
+      }else{
+        var id =  this.dataBlog.findIndex(v=>v.id == idBlog);
+        this.dataBlog[id].liked = 1;
+        this.dataBlog[id].liked_count = data['liked_count'];
       }
     })
-
   }
 
 }

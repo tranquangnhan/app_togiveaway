@@ -47,6 +47,11 @@ class Comments extends ModelDb
       $SQL = "UPDATE posts SET id_users_like = ? WHERE id=?";
       return $this->ModelDb->exec1($SQL,$allIdLike,$idBlog);
     }
+
+    function postComment($idBlog,$contentComment,$idUser){
+      $SQL = "INSERT INTO comments(id_blog,content,id_user) VALUES(?,?,?)";
+      return $this->ModelDb->exec1($SQL,$idBlog,$contentComment,$idUser);
+    }
 }
 
 ?>

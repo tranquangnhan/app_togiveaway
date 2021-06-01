@@ -19,6 +19,10 @@ export class CommentService {
     })
   };
 
+  postComment(data){
+    return this.http.post(this.apiUrl + 'postComment', { 'data': data}, this.httpOptions);
+  }
+
   getCommentByIdBlog(id) {
     return this.http.post(this.apiUrl + 'getAllCommentByIdBlog', { 'id': id }, this.httpOptions);
   }
@@ -30,4 +34,5 @@ export class CommentService {
   updateLike(data){
     return this.http.post(this.apiUrl+'updatelike',{ 'data': data }, this.httpOptions)
   }
+
 }

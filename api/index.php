@@ -110,6 +110,24 @@ if (isset($_GET['act'])) {
                 }
             }
             break;
+        case 'postComment':
+          $array = array();
+          $postdata = file_get_contents("php://input");
+          $dataJSON = json_decode($postdata);
+
+          $idBlog = $dataJSON->data->idBlog;
+          $contentComment = $dataJSON->data->contentComment;
+          $idUser = $dataJSON->data->idUser;
+
+          if($comments->postComment($idBlog,$contentComment,$idUser)){
+            $array['statusCode'] = 1;
+          }else{
+            $array['statusCode'] = 0;
+          }
+          
+          echo json_encode($array);
+          
+          break;
         case 'getAllCommentByIdBlog':
           $postdata = file_get_contents("php://input");
           $data = json_decode($postdata);
@@ -206,9 +224,11 @@ if (isset($_GET['act'])) {
             if($indexId === false){
               array_push($allIdLike,$idUser);
               $data['statusCode'] = 1;
+              $data['liked_count'] = count($allIdLike);
             }else{
               array_splice($allIdLike,$indexId,1);
               $data['statusCode'] = 2;
+              $data['liked_count'] = count($allIdLike);
             }
 
             $allIdLike = implode(",",$allIdLike);

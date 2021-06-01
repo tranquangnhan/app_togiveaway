@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 
 @Injectable({
@@ -29,7 +30,7 @@ export class DatablogsService {
     return this.http.post(this.apiUrl + 'addNewBlog',{ "data": data }, this.httpOptions);
   }
 
-  getAllBlogs() {
+  getAllBlogs():Observable<any> {
     return this.http.get(this.apiUrl + 'home', this.httpOptions);
   }
 }
