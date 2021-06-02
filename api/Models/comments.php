@@ -23,6 +23,11 @@ class Comments extends ModelDb
       $SQL = 'SELECT * FROM `comments` WHERE id_blog = ? AND id_comment_reply IS null';
       return $this->ModelDb->result1(0, $SQL, $id);
     }
+    
+    // function getDataUserById($id){
+    //   $SQL = 'SELECT name,image FROM `ú` WHERE id_blog = ? AND id_comment_reply IS null';
+    //   return $this->ModelDb->result1(0, $SQL, $id);
+    // }
 
     function getAllRepCommentByIdBlog($id) 
     {
@@ -48,15 +53,17 @@ class Comments extends ModelDb
       return $this->ModelDb->exec1($SQL,$allIdLike,$idBlog);
     }
 
-    function postComment($idBlog,$contentComment,$idUser){
-      $SQL = "INSERT INTO comments(id_blog,content,id_user) VALUES(?,?,?)";
-      return $this->ModelDb->exec1($SQL,$idBlog,$contentComment,$idUser);
+    function postComment($idBlog,$contentComment,$idUser,$idReply){
+      if(!$idReply){
+        $SQL = "INSERT INTO comments(id_blog,content,id_user) VALUES(?,?,?)";
+        return $this->ModelDb->exec1($SQL,$idBlog,$contentComment,$idUser);
+      }else{
+        $SQL = "INSERT INTO comments(id_blog,content,id_user,id_comment_reply) VALUES(?,?,?,?)";
+        return $this->ModelDb->exec1($SQL,$idBlog,$contentComment,$idUser,$idReply);
+      }
     }
 
-    function getOneCommentByIdBlog($idBlog){
-      $SQL = "SELECT * FROM comments WHERE id_blog = ?";
-      return $this->ModelDb->result1(0,$SQL,$idBlog);
-    } 
+    
 }
 
 ?>

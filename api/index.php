@@ -115,11 +115,13 @@ if (isset($_GET['act'])) {
           $postdata = file_get_contents("php://input");
           $dataJSON = json_decode($postdata);
 
+          $idReply = $dataJSON->data->idReply;
           $idBlog = $dataJSON->data->idBlog;
           $contentComment = $dataJSON->data->contentComment;
           $idUser = $dataJSON->data->idUser;
-
-          if($comments->postComment($idBlog,$contentComment,$idUser)){
+          
+       
+          if($comments->postComment($idBlog,$contentComment,$idUser,$idReply)){
             $array['dataComment'] = $comments->getAllCommentByIdBlog($idBlog);
             $array['statusCode'] = 1;
           }else{

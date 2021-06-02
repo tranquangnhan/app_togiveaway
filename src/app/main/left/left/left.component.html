@@ -84,7 +84,7 @@
             <img src="../../assets/images/download.png" alt="" class="img-fluid">
         </div>
         <div class="father_div_binh_luan w-100" [attr.comment-blog-id]="blog.id">
-            <div class="binhluan w-100" *ngFor="let comment of blog.data_comment; let i = index">
+            <div class="binhluan w-100" *ngFor="let comment of blog.data_comment  ; let i = index">
                 <div class="info_us w-100">
                     <div class="user mt-4 w-100 d-flex align-items-center">
                         <div class="mr-13px d-flex align-self-start">
@@ -105,7 +105,6 @@
                                     <div class="btn_rep cl-main" (click)="showFromTraloi(blog.id, i)">Trả lời</div>
                                 </ng-template>
 
-                                <div class="btn_like cl-main">Thích (24)</div>
                             </div>
                             <div class="father_div_binh_luan div_binhluan_tra_loi w-100" [attr.idBlog-fromtraloi]="blog.id" [attr.stt-reply]="i">
                                 <div class="div_binh_luan w-100" *ngFor="let repComment of comment.data_rep">
@@ -125,7 +124,6 @@
                                                     </div>
                                                     <div class="control_inComment">
                                                         <div class="btn_rep cl-main">Trả lời</div>
-                                                        <div class="btn_like cl-main">Thích (7)</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -135,8 +133,8 @@
                                 <div class="form_them_binhluan w-97">
                                     <form method="post">
                                         <div class="div_them_binhluan w-100">
-                                            <textarea name="" id="" class="w-100" placeholder="Bạn ..." rows="1"></textarea>
-                                            <button type="submit"><img  src="../../assets/images/send-button.png" alt="" class="img-fluid w-80"></button>
+                                            <textarea name="contentCommentReply" [(ngModel)]="contentCommentReply" id="" class="w-100" placeholder="Bạn ..." rows="1"></textarea>
+                                            <button type="submit"><img (click)="addComment(blog.id,comment.id)"  src="../../assets/images/send-button.png" alt="" class="img-fluid w-80"></button>
                                         </div>
                                     </form>
                                 </div>
@@ -150,7 +148,7 @@
             <form action="" method="post">
                 <div class="div_them_binhluan w-100">
                     <textarea name="contentComment" [(ngModel)]="contentComment" id="" class="w-100" placeholder="Bình luận ..." rows="1"></textarea>
-                    <button type="submit"><img (click)="addComment(blog.id)"  src="../../assets/images/send-button.png" alt="" class="img-fluid w-80"></button>
+                    <button type="submit"><img (click)="addComment(blog.id,'')"  src="../../assets/images/send-button.png" alt="" class="img-fluid w-80"></button>
                 </div>
             </form>
         </div>

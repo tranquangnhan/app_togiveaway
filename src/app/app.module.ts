@@ -22,6 +22,8 @@ import { AuthInterceptor } from './auth.interceptor';
 import { LeftComponent } from './main/left/left/left.component';
 import { MenuComponent } from './main/menu/menu/menu.component';
 import { FileUploadModule } from "ng2-file-upload";
+import { Ng2OrderModule } from 'ng2-order-pipe';
+
 
 @NgModule({
   declarations: [
@@ -43,7 +45,8 @@ import { FileUploadModule } from "ng2-file-upload";
     FormsModule,
     NgbModule,
     JwtModule,
-    FileUploadModule
+    FileUploadModule,
+    Ng2OrderModule
   ],
   providers: [
     {

@@ -9,8 +9,7 @@ import { FileUploader, FileItem } from 'ng2-file-upload';
 import { HttpClient } from '@angular/common/http';
 import jwt_decode from "jwt-decode";
 import { CommentService } from '../../../services/comment.service';
-import { BehaviorSubject, Observable } from 'rxjs';
-
+import { Pipe, PipeTransform } from '@angular/core';
 @Component({
   selector: 'app-left',
   templateUrl: './left.component.html',
@@ -22,7 +21,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class LeftComponent implements OnInit {
   public urlsImage = [];
   public allProvinces = [];
-  public dataBlog = [];
+  public dataBlog ;
   
   public previewImages: boolean  = false;
   public checkclick_: boolean  = true;
@@ -39,7 +38,8 @@ export class LeftComponent implements OnInit {
 
   public bienDem = 0;
   public contentComment:string;
-
+  public contentCommentReply:string;
+  
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
@@ -60,7 +60,7 @@ export class LeftComponent implements OnInit {
   loadBlogs() {
     this.datablog.getAllBlogs().subscribe(
       respon => {
-        console.log(respon)
+       
         var data = respon['data'];
         for (let i = 0; i < data.length; i++) {
           var strImage = data[i]['images'].split(",");
@@ -114,10 +114,12 @@ export class LeftComponent implements OnInit {
 
 
         this.dataBlog = data;
-        console.log(this.dataBlog);
+        console.log(data)
       }
     )
   }
+
+
 
   getAndPushDataUserById(id, where) {
     this.userService.getUsById(id).subscribe( // get thong tin us
@@ -374,14 +376,62 @@ export class LeftComponent implements OnInit {
     }
   }
 
-  addComment(idBlog){
-    var data = {
-      idBlog:idBlog,
-      contentComment:this.contentComment,
-      idUser:this.getIdUs()
+  addComment(idBlog,idReply){
+    var dataComment;
+    if(idReply ==''){
+       dataComment = {
+        idBlog:idBlog,
+        contentComment:this.contentComment,
+        idUser:this.getIdUs()
+      }
+    }else{
+        dataComment = {
+        idReply:idReply,
+        idBlog:idBlog,
+        contentComment:this.contentCommentReply,
+        idUser:this.getIdUs()
+      }
     }
-    this.CommentService.postComment(data).subscribe(data=>{
-      console.log(data);
+    console.log(dataComment)
+    
+    this.CommentService.postComment(dataComment).subscribe(data=>{
+      var id =  this.dataBlog.findIndex(v=>v.id == idBlog);
+
+
+      // this.getCommentByIdBlog(idBlog)
+     
+      this.CommentService.getCommentByIdBlog(idBlog).subscribe(
+
+        response => {
+          if (response != '') {
+            for (let key in response) {
+              let idComment = response[key]['id'];
+  
+              let time = this.getDateTimeByTimestamp(response[key]['date_create']);
+              response[key]['date_create'] = time;
+  
+              this.getAndPushDataUserById(response[key]['id_user'], response[key]);
+  
+              this.CommentService.getRepCommentByIdComment(idComment).subscribe(
+                res => {
+                  if (res != '') {
+                    for (let key in res) {
+                      let time = this.getDateTimeByTimestamp(res[key]['date_create']);
+                      res[key]['date_create'] = time;
+  
+                      this.getAndPushDataUserById(res[key]['id_user'], res[key]);
+                    }
+                    response[key]['data_rep'] = res;
+  
+                  }
+                }
+              )
+            }
+          }
+          this.dataBlog[id]['data_comment'] = response;
+        }
+      )
+      console.log(this.dataBlog[id])
       if(data['statusCode'] == 1){
         var div = $("[comment-blog-id=" + idBlog + "]");
         this.showComment(div);
@@ -478,6 +528,13 @@ export class LeftComponent implements OnInit {
     var idUs = dataUs.id;
     return idUs;
   }
+  getFullUser() {
+    var loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+    var token = loggedInUser.jwt
+    var jwtDecodeToken = jwt_decode(token);
+    var dataUs = jwtDecodeToken['data'];
+    return dataUs;
+  }
 
   like(idBlog){
     var idUser = this.getIdUs();
@@ -486,7 +543,7 @@ export class LeftComponent implements OnInit {
       idBlog: idBlog,
       idUser: idUser
     }
-
+  
     this.CommentService.updateLike(data).subscribe(data=>{
       if(data['statusCode'] == '1'){
         var id =  this.dataBlog.findIndex(v=>v.id == idBlog);
