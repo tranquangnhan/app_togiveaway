@@ -71,7 +71,9 @@ export class LeftComponent implements OnInit {
 
 
           var checkLike = data[i]['id_users_like']?.split(",");
+          if(checkLike[0] == '') checkLike.shift();
           data[i]['liked_count'] = checkLike?.length;
+          console.log(checkLike)
 
           if(checkLike?.findIndex(value=>value === this.getIdUs()) !== -1){
             data[i]['liked'] = 2;
@@ -545,6 +547,7 @@ export class LeftComponent implements OnInit {
     }
   
     this.CommentService.updateLike(data).subscribe(data=>{
+      console.log(data);
       if(data['statusCode'] == '1'){
         var id =  this.dataBlog.findIndex(v=>v.id == idBlog);
         this.dataBlog[id].liked = 2;

@@ -220,23 +220,45 @@ if (isset($_GET['act'])) {
 
             $allIdLike = $comments->getIdUserLike($idBlog);
             
-            $allIdLike = explode(",",$allIdLike);
+            $idExplode = explode(",",$allIdLike);
 
-            $indexId = array_search($idUser, $allIdLike);
+            $idSearch = array_search($idUser,$idExplode);
 
-            if($indexId === false){
-              array_push($allIdLike,$idUser);
+            $data['idExplode'] = $idExplode;
+
+            $data['idSearch'] = $idSearch;
+
+            if( $allIdLike[0]== "")
+            { 
+              // if idLike is empty
+              array_push($idExplode,$idUser);
+              array_shift($idExplode);
               $data['statusCode'] = 1;
-              $data['liked_count'] = count($allIdLike);
+              $data['liked_count'] = count($idExplode);
+              $allIdLike = implode("",$idExplode);
+              $comments->updateIdUserLike($allIdLike,$idBlog);
+
+            } elseif($idSearch === false)
+            {
+              // if have any idLike
+              array_push($idExplode,$idUser);
+              $data['statusCode'] = 1;
+              $data['liked_count'] = count($idExplode);
+              $allIdLike = implode(",",$idExplode);
+              $comments->updateIdUserLike($allIdLike,$idBlog);
+
             }else{
-              array_splice($allIdLike,$indexId,1);
+              // remove idLike
+              array_splice($idExplode,$idSearch,1);
               $data['statusCode'] = 2;
-              $data['liked_count'] = count($allIdLike);
+              $data['liked_count'] = count($idExplode);
+              $allIdLike = implode(",",$idExplode);
+              $comments->updateIdUserLike($allIdLike,$idBlog);
+            
             }
+            $data['data'] = $idExplode;
+  
 
-            $allIdLike = implode(",",$allIdLike);
-
-            $comments->updateIdUserLike($allIdLike,$idBlog);
           }
           else {
             $data['statusCode'] = 0;
