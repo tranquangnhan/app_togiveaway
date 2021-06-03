@@ -1,0 +1,214 @@
+<!-- <app-header></app-header> -->
+
+<main>
+  <div class="container">
+    <div class="room">
+        <div class="room head mb-3">
+          <div class="row">
+            <div class="col-6 text-start">
+              Chat <button type="button" class="outchat-button" (click)="outChatRoom()"><i class="fa fa-sign-out" aria-hidden="true"></i>
+              </button>
+            </div>
+            <div class="col-6 text-end">
+              Thông báo
+            </div>
+          </div>
+        </div>
+        <div class="room main">
+          <div class="row">
+            <div class="col-5">
+              <div class="search">
+                <form class="example-form">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Tìm cuộc trò chuyện</mat-label>
+                    <input matInput placeholder="Tìm ...">
+                  </mat-form-field>
+                </form>
+              </div>
+              <div class="listUser hiddenscrollbar">
+                <div *ngFor="let us of dataUsFollow" class="boxUser box-user-hover d-flex align-items-center">
+                  <div class="img d-inline-block">
+                    <img src="{{ us.image }}" class="w-45px border-radius-40px" alt="">
+
+                  </div>
+                  <div class="info_ d-inline-block">
+                      <h4>{{ us.name }}</h4>
+                      <h6>Từ: Hồ Chí Minh</h6>
+                  </div>
+                </div>
+                <!-- <div class="boxUser box-user-hover d-flex align-items-center">
+                  <div class="img d-inline-block">
+                    <img src="../../assets/images/user clmain.png" class="w-45px" alt="">
+                  </div>
+                  <div class="info_ d-inline-block">
+                      <h4>Võ Hoàng Yến</h4>
+                      <h6>Hãy đến và liên lạc cho tôi</h6>
+                  </div>
+                </div>
+                <div class="boxUser box-user-hover d-flex align-items-center">
+                  <div class="img d-inline-block">
+                    <img src="../../assets/images/user clmain.png" class="w-45px" alt="">
+
+                  </div>
+                  <div class="info_ d-inline-block">
+                      <h4>Hoàng Long</h4>
+                      <h6>Hãy đến và liên lạc cho tôi Hồ Chí Minh</h6>
+                  </div>
+                </div>
+
+                <div class="boxUser box-user-hover d-flex align-items-center">
+                  <div class="img d-inline-block">
+                    <img src="../../assets/images/user clmain.png" class="w-45px" alt="">
+
+                  </div>
+                  <div class="info_ d-inline-block">
+                      <h4>Hoàng Long</h4>
+                      <h6>Hãy đến và liên lạc cho tôi Hồ Chí Minh</h6>
+                  </div>
+                </div>
+
+                <div class="boxUser box-user-hover d-flex align-items-center">
+                  <div class="img d-inline-block">
+                    <img src="../../assets/images/user clmain.png" class="w-45px" alt="">
+
+                  </div>
+                  <div class="info_ d-inline-block">
+                      <h4>Hoàng Long</h4>
+                      <h6>Hãy đến và liên lạc cho tôi Hồ Chí Minh</h6>
+                  </div>
+                </div>
+
+                <div class="boxUser box-user-hover d-flex align-items-center">
+                  <div class="img d-inline-block">
+                    <img src="../../assets/images/user clmain.png" class="w-45px" alt="">
+
+                  </div>
+                  <div class="info_ d-inline-block">
+                      <h4>Hoàng Long</h4>
+                      <h6>Hãy đến và liên lạc cho tôi Hồ Chí Minh</h6>
+                  </div>
+                </div>
+
+                <div class="boxUser box-user-hover d-flex align-items-center">
+                  <div class="img d-inline-block">
+                    <img src="../../assets/images/user clmain.png" class="w-45px" alt="">
+
+                  </div>
+                  <div class="info_ d-inline-block">
+                      <h4>Hoàng Long</h4>
+                      <h6>Hãy đến và liên lạc cho tôi Hồ Chí Minh</h6>
+                  </div>
+                </div>
+
+                <div class="boxUser box-user-hover d-flex align-items-center">
+                  <div class="img d-inline-block">
+                    <img src="../../assets/images/user clmain.png" class="w-45px" alt="">
+
+                  </div>
+                  <div class="info_ d-inline-block">
+                      <h4>Hoàng Long</h4>
+                      <h6>Hãy đến và liên lạc cho tôi Hồ Chí Minh</h6>
+                  </div>
+                </div> -->
+
+              </div>
+            </div>
+            <div class="col-7">
+              <div class="InfoUserChat">
+                <div class="boxUser box-user-hover d-flex align-items-center m-0">
+                  <div class="img d-inline-block">
+                    <img src="../../assets/images/user clmain.png" class="w-45px" alt="">
+
+                  </div>
+                  <div class="info_ d-inline-block">
+                      <h4>Tên user</h4>
+                      <h6>Từ: Hồ Chí Minh</h6>
+                  </div>
+                </div>
+              </div>
+              <div class="box-chat">
+                <div class="con">
+                  <div class="chat hiddenscrollbar">
+                    <div class="me div-chat">
+                      <div class="me box-mess">
+                        <p class="p-chat">Hãy đến và liên lạc cho tôi khi tôi đến Hồ Chí Minh. tôi khi tôi đến Hồ Chí Minh</p>
+                        <div class="time">
+                          <small>6/3/2021 18:32 PM
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="friend div-chat">
+                      <div class="friend box-mess">
+                        <p class="p-chat">Hãy đến và liên lạc cho tôi khi tôi đến Hồ Chí Minh</p>
+                        <div class="time">
+                          <small>6/3/2021 18:32 PM
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="me div-chat">
+                      <div class="me box-mess">
+                        <p class="p-chat">Hãy đến và liên lạc cho tôi khi tôi đến Hồ Chí Minh. tôi khi tôi đến Hồ Chí Minh</p>
+                        <div class="time">
+                          <small>6/3/2021 18:32 PM
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="friend div-chat">
+                      <div class="friend box-mess">
+                        <p class="p-chat">Hãy đến và liên lạc cho tôi khi tôi đến Hồ Chí Minh Hãy đến và liên lạc cho tôi khi tôi đến Hồ Chí Minh. </p>
+                        <div class="time">
+                          <small>6/3/2021 18:32 PM
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="me div-chat">
+                      <div class="me box-mess">
+                        <p class="p-chat">tôi khi tôi đến Hồ Chí Minh</p>
+                        <div class="time">
+                          <small>6/3/2021 18:32 PM
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="friend div-chat">
+                      <div class="friend box-mess">
+                        <p class="p-chat">Hãy đến và liên lạc cho tôi khi tôi đến Hồ Chí Minh Hãy đến và liên lạc cho tôi khi tôi đến Hồ Chí Minh. </p>
+                        <div class="time">
+                          <small>6/3/2021 18:32 PM
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="chat-control">
+                    <div class="border-radio-box">
+                      <form class="example-form position-relative">
+                        <!-- <div class="img d-inline-block form-chatBox">
+                          <img src="../../assets/images/user clmain.png" class="w-45px" alt="">
+                        </div> -->
+                        <mat-form-field class="example-full-width">
+                          <mat-label>Tìm cuộc trò chuyện</mat-label>
+                          <input matInput placeholder="Tìm ...">
+                        </mat-form-field>
+                        <button class="button-send">
+                          <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</main>

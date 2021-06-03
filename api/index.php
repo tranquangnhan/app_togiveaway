@@ -119,17 +119,17 @@ if (isset($_GET['act'])) {
           $idBlog = $dataJSON->data->idBlog;
           $contentComment = $dataJSON->data->contentComment;
           $idUser = $dataJSON->data->idUser;
-          
-       
+
+
           if($comments->postComment($idBlog,$contentComment,$idUser,$idReply)){
             $array['dataComment'] = $comments->getAllCommentByIdBlog($idBlog);
             $array['statusCode'] = 1;
           }else{
             $array['statusCode'] = 0;
           }
-          
+
           echo json_encode($array);
-          
+
           break;
         case 'getAllCommentByIdBlog':
           $postdata = file_get_contents("php://input");
@@ -207,7 +207,7 @@ if (isset($_GET['act'])) {
           }
           echo json_encode($status);
           break;
-         
+
         case 'updatelike':
           $data = array();
           $postdata = file_get_contents("php://input");
@@ -219,7 +219,7 @@ if (isset($_GET['act'])) {
             $idUser = $dataJSON->data->idUser;
 
             $allIdLike = $comments->getIdUserLike($idBlog);
-            
+
             $idExplode = explode(",",$allIdLike);
 
             $idSearch = array_search($idUser,$idExplode);
@@ -229,7 +229,7 @@ if (isset($_GET['act'])) {
             $data['idSearch'] = $idSearch;
 
             if( $allIdLike[0]== "")
-            { 
+            {
               // if idLike is empty
               array_push($idExplode,$idUser);
               array_shift($idExplode);
@@ -254,16 +254,30 @@ if (isset($_GET['act'])) {
               $data['liked_count'] = count($idExplode);
               $allIdLike = implode(",",$idExplode);
               $comments->updateIdUserLike($allIdLike,$idBlog);
-            
+
             }
             $data['data'] = $idExplode;
-  
 
           }
           else {
             $data['statusCode'] = 0;
           }
           echo json_encode($data);
+          break;
+        case 'getUsFollowtoById':
+          $data = array();
+          $postdata = file_get_contents("php://input");
+          if (isset($postdata) && !empty($postdata))
+          {
+            $account_id = json_decode($postdata);
+            $idUsInFollowto = $users->getUsFollowtoById($account_id->id);
+            $arrId = explode(",",$idUsInFollowto['follow_to']);
+            for ($i = 0; $i < count($arrId); $i++) {
+              $dataUs = $users->getUsByIdForBlog($arrId[$i]);
+              array_push($data, $dataUs);
+            }
+            echo json_encode($data);
+          }
           break;
         default:
             # code...

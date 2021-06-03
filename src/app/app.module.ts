@@ -23,7 +23,14 @@ import { LeftComponent } from './main/left/left/left.component';
 import { MenuComponent } from './main/menu/menu/menu.component';
 import { FileUploadModule } from "ng2-file-upload";
 import { Ng2OrderModule } from 'ng2-order-pipe';
+import { ChatroomComponent } from './chatroom/chatroom.component';
 
+import { MatInputModule } from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+// import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -34,6 +41,7 @@ import { Ng2OrderModule } from 'ng2-order-pipe';
     HomeComponent,
     LeftComponent,
     MenuComponent,
+    ChatroomComponent,
     // MenuleftComponent,
   ],
   imports: [
@@ -46,7 +54,13 @@ import { Ng2OrderModule } from 'ng2-order-pipe';
     NgbModule,
     JwtModule,
     FileUploadModule,
-    Ng2OrderModule
+    Ng2OrderModule,
+    BrowserAnimationsModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatButtonModule,
+    // DatePipe
   ],
   providers: [
     {

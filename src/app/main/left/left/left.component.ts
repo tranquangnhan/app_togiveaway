@@ -22,7 +22,7 @@ export class LeftComponent implements OnInit {
   public urlsImage = [];
   public allProvinces = [];
   public dataBlog ;
-  
+
   public previewImages: boolean  = false;
   public checkclick_: boolean  = true;
   public showModal: boolean = false;
@@ -39,7 +39,7 @@ export class LeftComponent implements OnInit {
   public bienDem = 0;
   public contentComment:string;
   public contentCommentReply:string;
-  
+
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
@@ -52,7 +52,7 @@ export class LeftComponent implements OnInit {
   ) {
     this.loadBlogs();
   }
-  
+
   ngOnInit(): void {
     this.user = JSON.parse(this.userService.getToken());
   };
@@ -60,7 +60,7 @@ export class LeftComponent implements OnInit {
   loadBlogs() {
     this.datablog.getAllBlogs().subscribe(
       respon => {
-       
+
         var data = respon['data'];
         for (let i = 0; i < data.length; i++) {
           var strImage = data[i]['images'].split(",");
@@ -115,7 +115,7 @@ export class LeftComponent implements OnInit {
 
 
         this.dataBlog = data;
-        console.log(data)
+        // console.log(data)
       }
     )
   }
@@ -130,7 +130,7 @@ export class LeftComponent implements OnInit {
     );
   }
 
-  
+
 
   public getDateTimeByTimestamp(timeBlog) {
     var str;
@@ -218,7 +218,7 @@ export class LeftComponent implements OnInit {
     document.getElementById("imageDetail_button").click();
   }
 
- 
+
   addImage(e) {
     var dieuKienTrue = "image";
     let files = e.target.files;
@@ -393,36 +393,36 @@ export class LeftComponent implements OnInit {
       }
     }
     console.log(dataComment)
-    
+
     this.CommentService.postComment(dataComment).subscribe(data=>{
       var id =  this.dataBlog.findIndex(v=>v.id == idBlog);
 
 
       // this.getCommentByIdBlog(idBlog)
-     
+
       this.CommentService.getCommentByIdBlog(idBlog).subscribe(
 
         response => {
           if (response != '') {
             for (let key in response) {
               let idComment = response[key]['id'];
-  
+
               let time = this.getDateTimeByTimestamp(response[key]['date_create']);
               response[key]['date_create'] = time;
-  
+
               this.getAndPushDataUserById(response[key]['id_user'], response[key]);
-  
+
               this.CommentService.getRepCommentByIdComment(idComment).subscribe(
                 res => {
                   if (res != '') {
                     for (let key in res) {
                       let time = this.getDateTimeByTimestamp(res[key]['date_create']);
                       res[key]['date_create'] = time;
-  
+
                       this.getAndPushDataUserById(res[key]['id_user'], res[key]);
                     }
                     response[key]['data_rep'] = res;
-  
+
                   }
                 }
               )
@@ -543,7 +543,7 @@ export class LeftComponent implements OnInit {
       idBlog: idBlog,
       idUser: idUser
     }
-  
+
     this.CommentService.updateLike(data).subscribe(data=>{
       console.log(data);
       if(data['statusCode'] == '1'){
