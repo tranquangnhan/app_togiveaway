@@ -38,6 +38,10 @@ class Users extends  ModelDb
       return $this->ModelDb->result1(1,$SQL);
     }
 
+    function getUsFollowtoById($id) {
+      $SQL = "SELECT follow_to FROM `users` WHERE `account_id` = ?";
+      return $this->ModelDb->result1(1, $SQL, $id);
+    }
 }
 
 ?>

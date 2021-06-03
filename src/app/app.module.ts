@@ -25,6 +25,12 @@ import { FileUploadModule } from "ng2-file-upload";
 import { Ng2OrderModule } from 'ng2-order-pipe';
 import { ChatroomComponent } from './chatroom/chatroom.component';
 
+import { MatInputModule } from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+// import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -48,7 +54,13 @@ import { ChatroomComponent } from './chatroom/chatroom.component';
     NgbModule,
     JwtModule,
     FileUploadModule,
-    Ng2OrderModule
+    Ng2OrderModule,
+    BrowserAnimationsModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatButtonModule,
+    // DatePipe
   ],
   providers: [
     {
