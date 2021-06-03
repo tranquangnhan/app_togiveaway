@@ -23,6 +23,7 @@ import { LeftComponent } from './main/left/left/left.component';
 import { MenuComponent } from './main/menu/menu/menu.component';
 import { FileUploadModule } from "ng2-file-upload";
 import { Ng2OrderModule } from 'ng2-order-pipe';
+import { ChatroomComponent } from './chatroom/chatroom.component';
 
 
 @NgModule({
@@ -34,6 +35,7 @@ import { Ng2OrderModule } from 'ng2-order-pipe';
     HomeComponent,
     LeftComponent,
     MenuComponent,
+    ChatroomComponent,
     // MenuleftComponent,
   ],
   imports: [

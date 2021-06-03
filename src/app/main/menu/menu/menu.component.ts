@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import * as $ from "jquery";
+import { UserService } from '../../../services/user.service';
+import { HttpClient } from '@angular/common/http';
+import jwt_decode from "jwt-decode";
 
 @Component({
   selector: 'app-menu',
@@ -11,7 +14,14 @@ import * as $ from "jquery";
 })
 export class MenuComponent implements OnInit {
   public checkClick = true;
-  constructor() { }
+  public dataUsFollow;
+  constructor(
+    private http: HttpClient,
+    private userService: UserService,
+
+  ) {
+    this.getAllUsFollowto();
+   }
 
   ngOnInit(): void {
   }
@@ -47,4 +57,21 @@ export class MenuComponent implements OnInit {
     $('#' + iddrop).slideToggle(460);
   }
 
+  getAllUsFollowto() {
+    var account_id = this.getIdUs();
+    this.userService.getUsFollowtoById(account_id).subscribe(
+      res => {
+        this.dataUsFollow = res;
+      }
+    )
+  }
+
+  getIdUs() {
+    var loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+    var token = loggedInUser.jwt
+    var jwtDecodeToken = jwt_decode(token);
+    var dataUs = jwtDecodeToken['data'];
+    var idUs = dataUs.id;
+    return idUs;
+  }
 }

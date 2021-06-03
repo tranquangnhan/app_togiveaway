@@ -84,69 +84,18 @@
     </div>
     <div class="list_us_on_mess w-100 ">
       <div class="container">
-        <div class="user mt-3 w-100 d-flex align-items-center">
+        <div *ngFor="let user of dataUsFollow" class="user mt-3 w-100 d-flex align-items-center">
           <div class=" mr-5pt">
-            <img src="../../assets/images/profile 2.png" class="w_45px" alt="">
+            <img src="{{ user.image }}" class="w_45px" alt="">
           </div>
           <div class="w-50">
-            <h5 class="ten pd-x-2">Phương Hoàng Diệu</h5>
+            <h5 class="ten pd-x-2">{{ user. name }}</h5>
             <h6 class="ten pd-x-2 mb-0 set_limit_text w-90">Chào bạn!!!</h6>
           </div>
           <div class="trang_thai_hoat_dong ms-auto"></div>
-        </div>
-        <div class="user mt-3 w-100 d-flex align-items-center">
-          <div class=" mr-5pt">
-            <img src="../../assets/images/profile 2.png" class="w_45px" alt="">
-          </div>
-          <div class="w-50">
-            <h5 class="ten pd-x-2">Phương Hoàng Long</h5>
-            <h6 class="ten pd-x-2 mb-0 set_limit_text w-90">Bạn đã tìm được chưa ?</h6>
-          </div>
-          <div class="trang_thai_hoat_dong ms-auto"></div>
-        </div>
-        <div class="user mt-3 w-100 d-flex align-items-center">
-          <div class=" mr-5pt">
-            <img src="../../assets/images/profile 2.png" class="w_45px" alt="">
-          </div>
-          <div class="w-50">
-            <h5 class="ten pd-x-2">Huỳnh Tấn Tài</h5>
-          </div>
-
-          <div class="trang_thai_hoat_dong ms-auto"></div>
-        </div>
-        <div class="user mt-3 w-100 d-flex align-items-center">
-          <div class=" mr-5pt">
-            <img src="../../assets/images/profile 2.png" class="w_45px" alt="">
-          </div>
-          <div class="w-50">
-            <h5 class="ten pd-x-2">Long Hoàng</h5>
-            <h6 class="ten pd-x-2 mb-0 set_limit_text w-90">Vâng người vô gia cư ở đó rất nhiều</h6>
-          </div>
-          <div class="ms-auto">
-            <h6 class="mb-0 text-end">10 phút trước</h6>
-          </div>
-        </div>
-        <div class="user mt-3 w-100 d-flex align-items-center">
-          <div class=" mr-5pt">
-            <img src="../../assets/images/profile 2.png" class="w_45px" alt="">
-          </div>
-          <div class="w-50">
-            <h5 class="ten pd-x-2">Huỳnh Tấn Tài</h5>
-          </div>
-
-          <div class="trang_thai_hoat_dong ms-auto"></div>
-        </div>
-        <div class="user mt-3 w-100 d-flex align-items-center">
-          <div class=" mr-5pt">
-            <img src="../../assets/images/profile 2.png" class="w_45px" alt="">
-          </div>
-          <div class="w-50">
-            <h5 class="ten pd-x-2">Long Hoàng</h5>
-            <h6 class="ten pd-x-2 mb-0 set_limit_text w-90">Vâng người vô gia cư ở đó rất nhiều</h6>
-          </div>
-          <div class="ms-auto">
+          <!-- <div class="ms-auto">
             <h6 class="mb-0 text-end">2 phút trước</h6>
-          </div>
+          </div> -->
         </div>
         <div class="form_timkiem">
 
