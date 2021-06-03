@@ -31,6 +31,7 @@ export class MenuComponent implements OnInit {
     private router: Router
   ) {
     this.getAllUsFollowto();
+    this.idus = this.getIdaccountUs();
    }
 
   ngOnInit(): void {
@@ -71,12 +72,9 @@ export class MenuComponent implements OnInit {
     var account_id = this.getIdaccountUs();
     this.userService.getUsFollowtoById(account_id).subscribe(
       res => {
-        console.log(res);
-        this.dataUsFollow = res[0];
-        this.me = res[1]['id']
+        this.dataUsFollow = res;
       }
     )
-    this.getIdUs(account_id);
   }
 
   getIdaccountUs() {
@@ -86,14 +84,6 @@ export class MenuComponent implements OnInit {
     var dataUs = jwtDecodeToken['data'];
     var idUs = dataUs.id;
     return idUs;
-  }
-
-  getIdUs(idaccount) {
-    this.userService.getUsIdByIdaccount(idaccount).subscribe(
-      res => {
-        this.idus = res['id'];
-      }
-    );
   }
 
   gotoChatRoom(idfus, me) {

@@ -70,10 +70,9 @@ export class ChatroomComponent implements OnInit {
     var account_id = this.getIdaccountUs();
     this.userService.getUsFollowtoById(account_id).subscribe(
       res => {
-        this.dataUsFollow = res[0];
+        this.dataUsFollow = res;
       }
     )
-    this.getIdUs(account_id);
   }
 
   outChatRoom() {

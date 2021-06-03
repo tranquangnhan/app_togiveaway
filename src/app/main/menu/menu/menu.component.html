@@ -84,7 +84,7 @@
     </div>
     <div class="list_us_on_mess w-100 ">
       <div class="container">
-        <div *ngFor="let user of dataUsFollow" class="user mt-3 w-100 d-flex align-items-center" (click)="gotoChatRoom(user.id, me)">
+        <div *ngFor="let user of dataUsFollow" class="user mt-3 w-100 d-flex align-items-center" (click)="gotoChatRoom(user.id, idus)">
           <div class=" mr-5pt">
             <img src="{{ user.image }}" class="w_45px" alt="">
           </div>
