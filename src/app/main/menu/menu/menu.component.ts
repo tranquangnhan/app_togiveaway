@@ -22,6 +22,8 @@ import "firebase/firestore";
 export class MenuComponent implements OnInit {
   public checkClick = true;
   public dataUsFollow;
+  public me;
+  public idus;
 
   constructor(
     private http: HttpClient,
@@ -66,15 +68,18 @@ export class MenuComponent implements OnInit {
   }
 
   getAllUsFollowto() {
-    var account_id = this.getIdUs();
+    var account_id = this.getIdaccountUs();
     this.userService.getUsFollowtoById(account_id).subscribe(
       res => {
-        this.dataUsFollow = res;
+        console.log(res);
+        this.dataUsFollow = res[0];
+        this.me = res[1]['id']
       }
     )
+    this.getIdUs(account_id);
   }
 
-  getIdUs() {
+  getIdaccountUs() {
     var loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
     var token = loggedInUser.jwt
     var jwtDecodeToken = jwt_decode(token);
@@ -83,8 +88,19 @@ export class MenuComponent implements OnInit {
     return idUs;
   }
 
-  gotoChatRoom(idus) {
-    const roomId = idus;
+  getIdUs(idaccount) {
+    this.userService.getUsIdByIdaccount(idaccount).subscribe(
+      res => {
+        this.idus = res['id'];
+      }
+    );
+  }
+
+  gotoChatRoom(idfus, me) {
+    // var arrayId = [idfus, this.idus];
+    // console.log(arrayId);
+    // const roomId = idfus;
+    // console.log(this.idus, roomId);
     // firebase.database().ref('roomusers/').orderByChild('roomname').equalTo(roomname).on('value', (resp: any) => {
     //   let roomuser = [];
     //   roomuser = snapshotToArray(resp);
@@ -102,6 +118,6 @@ export class MenuComponent implements OnInit {
     //     newRoomUser.set(newroomuser);
     //   }
     // });
-    this.router.navigate(['/chatroom', idus]);
+    this.router.navigate(['/chatroom', idfus, me]);
   }
 }

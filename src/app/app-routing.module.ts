@@ -9,7 +9,7 @@ const routes: Routes = [{
 },{
   path:"home",component:HomeComponent,canActivate:[AuthGuard],
 },
-  {path: "chatroom/:id", component:ChatroomComponent}
+  {path: "chatroom/:id/:me", component:ChatroomComponent}
 ];
 
 @NgModule({

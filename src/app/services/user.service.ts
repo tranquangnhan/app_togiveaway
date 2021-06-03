@@ -52,4 +52,8 @@ export class UserService {
   getUsFollowtoById(id) {
     return this.http.post(this.apiUrl + "getUsFollowtoById", { id }, this.httpOptions);
   }
+
+  getUsIdByIdaccount(id_account) {
+    return this.http.post(this.apiUrl + "getUsIdByIdaccount", { id_account }, this.httpOptions);
+  }
 }

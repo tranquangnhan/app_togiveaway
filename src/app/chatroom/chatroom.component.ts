@@ -5,7 +5,7 @@ import { UserService } from '../services/user.service';
 import { HttpClient } from '@angular/common/http';
 import jwt_decode from "jwt-decode";
 // import { DatePipe } from '@angular/common';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 export const snapshotToArray = (snapshot: any) => {
   const returnArr = [];
@@ -39,6 +39,8 @@ export class ChatroomComponent implements OnInit {
     Validators.email,
   ]);
   public dataUsFollow;
+  public fIdus;
+  public idus;
 
   matcher = new MyErrorStateMatcher();
 
@@ -47,7 +49,17 @@ export class ChatroomComponent implements OnInit {
     private userService: UserService,
     private router: Router,
     // public datepipe: DatePipe
+    private activatedRoute: ActivatedRoute
   ) {
+      var url = this.router.url;
+      console.log(url);
+      var indOfM = url.indexOf('m');
+      this.fIdus = url.substring(indOfM + 2 , url.indexOf('/', indOfM + 2));
+      this.idus  = url.substring(url.lastIndexOf('/') + 1, url.length);
+      console.log();
+
+      var arrId = [this.fIdus, this.idus];
+      console.log(arrId);
    }
 
   ngOnInit(): void {
@@ -55,16 +67,20 @@ export class ChatroomComponent implements OnInit {
   }
 
   getAllUsFollowto() {
-    var account_id = this.getIdUs();
+    var account_id = this.getIdaccountUs();
     this.userService.getUsFollowtoById(account_id).subscribe(
       res => {
-        this.dataUsFollow = res;
-        console.log(res);
+        this.dataUsFollow = res[0];
       }
     )
+    this.getIdUs(account_id);
   }
 
-  getIdUs() {
+  outChatRoom() {
+    this.router.navigate(['/home']);
+  }
+
+  getIdaccountUs() {
     var loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
     var token = loggedInUser.jwt
     var jwtDecodeToken = jwt_decode(token);
@@ -73,7 +89,13 @@ export class ChatroomComponent implements OnInit {
     return idUs;
   }
 
-  outChatRoom() {
-    this.router.navigate(['/home']);
+
+  getIdUs(idaccount) {
+    return this.userService.getUsIdByIdaccount(idaccount).subscribe(
+      res => {
+        this.idus = res['id'];
+      }
+    );
   }
+
 }

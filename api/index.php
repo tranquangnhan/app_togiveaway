@@ -31,6 +31,17 @@ if (isset($_GET['act'])) {
                 echo json_encode($Return);
             }
             break;
+        case 'getUsIdByIdaccount':
+          $postdata = file_get_contents("php://input");
+
+          $json = json_decode($postdata);
+
+          $id = $json->id_account;
+
+          $data = $users->getUsIdByIdaccount($id);
+
+          echo json_encode($data);
+          break;
         case 'getUsById':
           $postdata = file_get_contents("php://input");
 
@@ -270,13 +281,16 @@ if (isset($_GET['act'])) {
           if (isset($postdata) && !empty($postdata))
           {
             $account_id = json_decode($postdata);
+            $User = $users->getUsIdByIdaccount($account_id->id);
+
             $idUsInFollowto = $users->getUsFollowtoById($account_id->id);
             $arrId = explode(",",$idUsInFollowto['follow_to']);
             for ($i = 0; $i < count($arrId); $i++) {
               $dataUs = $users->getUsByIdForBlog($arrId[$i]);
               array_push($data, $dataUs);
             }
-            echo json_encode($data);
+
+            echo json_encode([$data, $User]);
           }
           break;
         default:

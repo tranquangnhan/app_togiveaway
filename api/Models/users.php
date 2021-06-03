@@ -34,13 +34,18 @@ class Users extends  ModelDb
     }
 
     function getUsByIdForBlog($id) {
-      $SQL = "SELECT id,name, image FROM `users` WHERE id = $id";
+      $SQL = "SELECT id, name, image FROM `users` WHERE id = $id";
       return $this->ModelDb->result1(1,$SQL);
     }
 
     function getUsFollowtoById($id) {
       $SQL = "SELECT follow_to FROM `users` WHERE `account_id` = ?";
       return $this->ModelDb->result1(1, $SQL, $id);
+    }
+
+    function getUsIdByIdaccount($id_acount) {
+      $SQL = "SELECT id FROM `users` WHERE `account_id` = ?";
+      return $this->ModelDb->result1(1, $SQL, $id_acount);
     }
 }
 
