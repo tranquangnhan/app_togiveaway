@@ -48,6 +48,7 @@ export class IndexComponent implements OnInit {
         }
 
         this.datablog.loginUser(data).subscribe(data=>{
+
           localStorage.setItem('loggedInUser', JSON.stringify(data));
           this.loggedUserSubject.next(data);
 
@@ -65,6 +66,7 @@ export class IndexComponent implements OnInit {
     });
   }
   loginWithGoogle(): void {
+
       this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
   }
 }
