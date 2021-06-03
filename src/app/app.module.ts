@@ -25,13 +25,14 @@ import { FileUploadModule } from "ng2-file-upload";
 import { Ng2OrderModule } from 'ng2-order-pipe';
 import { ChatroomComponent } from './chatroom/chatroom.component';
 
-import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-// import { DatePipe } from '@angular/common';
 
+
+// import { DatePipe } from '@angular/common';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
 @NgModule({
   declarations: [
     AppComponent,

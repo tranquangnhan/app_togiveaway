@@ -73,7 +73,6 @@ export class LeftComponent implements OnInit {
           var checkLike = data[i]['id_users_like']?.split(",");
           if(checkLike[0] == '') checkLike.shift();
           data[i]['liked_count'] = checkLike?.length;
-          // console.log(checkLike)
 
           if(checkLike?.findIndex(value=>value === this.getIdUs()) !== -1){
             data[i]['liked'] = 2;
@@ -258,7 +257,6 @@ export class LeftComponent implements OnInit {
   }
 
   showFromTraloi(idblog, sttbinhluan) {
-    console.log(idblog, sttbinhluan);
     var div = $("[idBlog-fromtraloi=" + idblog + "][stt-reply=" + sttbinhluan + "]");
     this.moveDivBinhluan(div);
   }
